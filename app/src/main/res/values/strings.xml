@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">CatCare</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="my_pets">Мои питомцы</string>
+    <string name="diary">Дневник</string>
+    <string name="helpful">Полезное</string>
+</resources>

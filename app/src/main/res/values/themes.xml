@@ -1,0 +1,18 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.CatCare" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/bright_orange</item>
+        <item name="colorSurfaceContainer">@color/soft_orange</item>
+        <item name="colorOnSurface">@color/brown</item>
+        <item name="colorOnSurfaceVariant">@color/soft_brown</item>
+        <item name="colorOnSecondaryContainer">@color/brown</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+    </style>
+
+    <style name="Theme.CatCare" parent="Base.Theme.CatCare" />
+
+    <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/soft_orange_2</item>
+    </style>
+</resources>
