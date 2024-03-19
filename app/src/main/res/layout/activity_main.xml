@@ -11,4 +11,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp_first_entry"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dot1"
+        app:dotsColor="@color/soft_orange"
+        app:selectedDotColor="@color/bright_orange"
+        app:dotsSize="15dp"
+        app:dotsSpacing="5dp"
+        app:progressMode="true"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
