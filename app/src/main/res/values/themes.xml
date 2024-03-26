@@ -7,12 +7,18 @@
         <item name="colorOnSurfaceVariant">@color/soft_brown</item>
         <item name="colorOnSecondaryContainer">@color/brown</item>
         <item name="colorOnPrimary">@color/white</item>
-
+        <item name="colorSurfaceContainerHighest">@color/soft_orange</item>
     </style>
 
     <style name="Theme.CatCare" parent="Base.Theme.CatCare" />
 
     <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="android:color">@color/soft_orange_2</item>
+    </style>
+
+    <style name="Headline">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/bright_orange</item>
+        <item name="android:fontFamily">@font/montserrat_semibold</item>
     </style>
 </resources>

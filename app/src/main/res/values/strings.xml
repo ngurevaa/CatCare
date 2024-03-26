@@ -5,4 +5,5 @@
     <string name="my_pets">Мои питомцы</string>
     <string name="diary">Дневник</string>
     <string name="helpful">Полезное</string>
+    <string name="btn_fact">Факт о кошках</string>
 </resources>
