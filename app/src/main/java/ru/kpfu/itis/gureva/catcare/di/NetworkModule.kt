@@ -5,6 +5,7 @@ import dagger.Provides
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import ru.kpfu.itis.gureva.catcare.BuildConfig
 import ru.kpfu.itis.gureva.catcare.data.remote.CatFactsApi
 import javax.inject.Singleton
 
@@ -23,7 +24,7 @@ class NetworkModule {
         client: OkHttpClient,
         converterFactory: GsonConverterFactory
     ): Retrofit = Retrofit.Builder()
-            .baseUrl("https://meowfacts.herokuapp.com")
+            .baseUrl(BuildConfig.CAT_FACT_API_BASE_URL)
             .client(client)
             .addConverterFactory(converterFactory)
             .build()

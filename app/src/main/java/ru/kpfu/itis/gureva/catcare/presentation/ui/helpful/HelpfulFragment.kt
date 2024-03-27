@@ -7,21 +7,30 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import dagger.Lazy
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import ru.kpfu.itis.gureva.catcare.R
 import ru.kpfu.itis.gureva.catcare.databinding.FragmentHelpfulBinding
 import ru.kpfu.itis.gureva.catcare.di.MainApp
+import ru.kpfu.itis.gureva.catcare.di.MultiViewModelFactory
 import ru.kpfu.itis.gureva.catcare.di.appComponent
 import ru.kpfu.itis.gureva.catcare.domain.usecase.GetCatFactUseCase
 import javax.inject.Inject
 
 class HelpfulFragment : Fragment(R.layout.fragment_helpful) {
     private var binding: FragmentHelpfulBinding? = null
-    private val viewModel: HelpfulViewModel by viewModels() {HelpfulViewModel.Factory}
+
+    @Inject
+    internal lateinit var viewModelFactory: Lazy<ViewModelProvider.Factory>
+
+    private val viewModel: HelpfulViewModel by viewModels {
+        viewModelFactory.get()
+    }
 
     @Inject
     lateinit var getCatFactUseCase: GetCatFactUseCase
@@ -35,13 +44,10 @@ class HelpfulFragment : Fragment(R.layout.fragment_helpful) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHelpfulBinding.bind(view)
 
-//        observerData()
+        observerData()
 
         binding?.btnFact?.setOnClickListener {
-//            viewModel.getFact()
-            lifecycleScope.launch {
-                binding?.tvF?.text = getCatFactUseCase.invoke().fact
-            }
+            viewModel.getFact()
         }
     }
 
