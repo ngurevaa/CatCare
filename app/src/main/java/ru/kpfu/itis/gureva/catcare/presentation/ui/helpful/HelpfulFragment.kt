@@ -1,5 +1,6 @@
 package ru.kpfu.itis.gureva.catcare.presentation.ui.helpful
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -13,19 +14,34 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import ru.kpfu.itis.gureva.catcare.R
 import ru.kpfu.itis.gureva.catcare.databinding.FragmentHelpfulBinding
+import ru.kpfu.itis.gureva.catcare.di.MainApp
+import ru.kpfu.itis.gureva.catcare.di.appComponent
+import ru.kpfu.itis.gureva.catcare.domain.usecase.GetCatFactUseCase
+import javax.inject.Inject
 
 class HelpfulFragment : Fragment(R.layout.fragment_helpful) {
     private var binding: FragmentHelpfulBinding? = null
     private val viewModel: HelpfulViewModel by viewModels() {HelpfulViewModel.Factory}
 
+    @Inject
+    lateinit var getCatFactUseCase: GetCatFactUseCase
+
+    override fun onAttach(context: Context) {
+        requireContext().appComponent.inject(this)
+        super.onAttach(context)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHelpfulBinding.bind(view)
 
-        observerData()
+//        observerData()
 
         binding?.btnFact?.setOnClickListener {
-            viewModel.getFact()
+//            viewModel.getFact()
+            lifecycleScope.launch {
+                binding?.tvF?.text = getCatFactUseCase.invoke().fact
+            }
         }
     }
 
@@ -33,8 +49,7 @@ class HelpfulFragment : Fragment(R.layout.fragment_helpful) {
         with(viewModel) {
             currentCatFactFlow.observe(this@HelpfulFragment) {catFactUIModel ->  
                 catFactUIModel?.let {
-                    println("here")
-                    Log.e("FACT", it.fact)
+                    binding?.tvF?.text = it.fact
                 }
             }
         }

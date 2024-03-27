@@ -5,8 +5,9 @@ import kotlinx.coroutines.withContext
 import ru.kpfu.itis.gureva.catcare.domain.mapper.CatFactUIModelMapper
 import ru.kpfu.itis.gureva.catcare.domain.repository.CatFactRepository
 import ru.kpfu.itis.gureva.catcare.presentation.model.CatFactUIModel
+import javax.inject.Inject
 
-class GetCatFactUseCase(
+class GetCatFactUseCase @Inject constructor(
     private val repository: CatFactRepository,
     private val mapper: CatFactUIModelMapper
 ) {
