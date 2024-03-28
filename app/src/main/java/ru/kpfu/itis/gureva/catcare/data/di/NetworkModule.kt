@@ -1,4 +1,4 @@
-package ru.kpfu.itis.gureva.catcare.di
+package ru.kpfu.itis.gureva.catcare.data.di
 
 import dagger.Module
 import dagger.Provides

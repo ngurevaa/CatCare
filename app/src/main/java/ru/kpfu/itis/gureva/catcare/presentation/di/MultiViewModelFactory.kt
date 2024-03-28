@@ -1,4 +1,4 @@
-package ru.kpfu.itis.gureva.catcare.di
+package ru.kpfu.itis.gureva.catcare.presentation.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

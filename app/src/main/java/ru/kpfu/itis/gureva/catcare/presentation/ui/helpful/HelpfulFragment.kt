@@ -2,7 +2,6 @@ package ru.kpfu.itis.gureva.catcare.presentation.ui.helpful
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,57 +15,26 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import ru.kpfu.itis.gureva.catcare.R
 import ru.kpfu.itis.gureva.catcare.databinding.FragmentHelpfulBinding
-import ru.kpfu.itis.gureva.catcare.di.MainApp
-import ru.kpfu.itis.gureva.catcare.di.MultiViewModelFactory
 import ru.kpfu.itis.gureva.catcare.di.appComponent
 import ru.kpfu.itis.gureva.catcare.domain.usecase.GetCatFactUseCase
+import ru.kpfu.itis.gureva.catcare.utils.observe
 import javax.inject.Inject
 
 class HelpfulFragment : Fragment(R.layout.fragment_helpful) {
+
     private var binding: FragmentHelpfulBinding? = null
 
-    @Inject
-    internal lateinit var viewModelFactory: Lazy<ViewModelProvider.Factory>
-
-    private val viewModel: HelpfulViewModel by viewModels {
-        viewModelFactory.get()
-    }
-
-    @Inject
-    lateinit var getCatFactUseCase: GetCatFactUseCase
-
-    override fun onAttach(context: Context) {
-        requireContext().appComponent.inject(this)
-        super.onAttach(context)
-    }
+    private val fragmentContainerId: Int = R.id.main_container
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHelpfulBinding.bind(view)
 
-        observerData()
-
         binding?.btnFact?.setOnClickListener {
-            viewModel.getFact()
-        }
-    }
-
-    private fun observerData() {
-        with(viewModel) {
-            currentCatFactFlow.observe(this@HelpfulFragment) {catFactUIModel ->  
-                catFactUIModel?.let {
-                    binding?.tvF?.text = it.fact
-                }
-            }
-        }
-    }
-}
-
-inline fun <T> Flow<T>.observe(fragment: Fragment, crossinline block: (T) -> Unit): Job {
-    val lifecycleOwner = fragment.viewLifecycleOwner
-    return lifecycleOwner.lifecycleScope.launch {
-        lifecycleOwner.repeatOnLifecycle(state = Lifecycle.State.STARTED) {
-            collect { data -> block(data) }
+            parentFragmentManager.beginTransaction()
+                .replace(fragmentContainerId, CatFactFragment())
+                .addToBackStack(null)
+                .commit()
         }
     }
 }

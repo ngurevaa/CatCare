@@ -2,6 +2,9 @@ package ru.kpfu.itis.gureva.catcare.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import ru.kpfu.itis.gureva.catcare.R
 import ru.kpfu.itis.gureva.catcare.databinding.ActivityMainBinding
 import ru.kpfu.itis.gureva.catcare.presentation.ui.diary.DiaryFragment
@@ -9,7 +12,9 @@ import ru.kpfu.itis.gureva.catcare.presentation.ui.helpful.HelpfulFragment
 import ru.kpfu.itis.gureva.catcare.presentation.ui.pets.MyPetsFragment
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityMainBinding
+
     private val fragmentContainerId: Int = R.id.main_container
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +29,30 @@ class MainActivity : AppCompatActivity() {
                 .add(fragmentContainerId, MyPetsFragment())
                 .commit()
         }
+
+        supportFragmentManager.registerFragmentLifecycleCallbacks(object : FragmentManager.FragmentLifecycleCallbacks() {
+            override fun onFragmentViewCreated(
+                fm: FragmentManager,
+                f: Fragment,
+                v: View,
+                savedInstanceState: Bundle?
+            ) {
+                when (f) {
+                    is DiaryFragment -> {
+                        binding.bottomNavigation.visibility = View.VISIBLE
+                    }
+                    is HelpfulFragment -> {
+                        binding.bottomNavigation.visibility = View.VISIBLE
+                    }
+                    is MyPetsFragment -> {
+                        binding.bottomNavigation.visibility = View.VISIBLE
+                    }
+                    else -> {
+                        binding.bottomNavigation.visibility = View.GONE
+                    }
+                }
+            }
+        }, true)
     }
 
     private fun setBottomNavigationItemSelectedListener() {
