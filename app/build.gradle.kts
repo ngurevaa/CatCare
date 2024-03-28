@@ -18,6 +18,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "CAT_FACT_API_BASE_URL", "\"https://meowfacts.herokuapp.com\"")
+        buildConfigField("String", "CAT_GIF_BASE_URL", "\"https://cataas.com/cat/gif\"")
     }
 
     buildTypes {
@@ -44,6 +45,9 @@ android {
 }
 
 dependencies {
+    val glideVersion = "4.16.0"
+    implementation("com.github.bumptech.glide:glide:$glideVersion")
+
     val dotsIndicatorVersion = "5.0"
     implementation("com.tbuonomo:dotsindicator:$dotsIndicatorVersion")
 
