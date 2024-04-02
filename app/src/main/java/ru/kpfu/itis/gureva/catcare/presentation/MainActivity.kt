@@ -23,36 +23,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setBottomNavigationItemSelectedListener()
-//        binding.bottomNavigation.selectedItemId = R.id.my_pets
+        registerFragmentLifecycleCallbacksForBottomNavigation()
+
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .add(fragmentContainerId, MyPetsFragment())
                 .commit()
         }
-
-        supportFragmentManager.registerFragmentLifecycleCallbacks(object : FragmentManager.FragmentLifecycleCallbacks() {
-            override fun onFragmentViewCreated(
-                fm: FragmentManager,
-                f: Fragment,
-                v: View,
-                savedInstanceState: Bundle?
-            ) {
-                when (f) {
-                    is DiaryFragment -> {
-                        binding.bottomNavigation.visibility = View.VISIBLE
-                    }
-                    is HelpfulFragment -> {
-                        binding.bottomNavigation.visibility = View.VISIBLE
-                    }
-                    is MyPetsFragment -> {
-                        binding.bottomNavigation.visibility = View.VISIBLE
-                    }
-                    else -> {
-                        binding.bottomNavigation.visibility = View.GONE
-                    }
-                }
-            }
-        }, true)
     }
 
     private fun setBottomNavigationItemSelectedListener() {
@@ -82,5 +59,26 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+    }
+
+    private fun registerFragmentLifecycleCallbacksForBottomNavigation() {
+        supportFragmentManager.registerFragmentLifecycleCallbacks(object : FragmentManager.FragmentLifecycleCallbacks() {
+            override fun onFragmentViewCreated(fm: FragmentManager, f: Fragment, v: View, savedInstanceState: Bundle?) {
+                when (f) {
+                    is DiaryFragment -> {
+                        binding.bottomNavigation.visibility = View.VISIBLE
+                    }
+                    is HelpfulFragment -> {
+                        binding.bottomNavigation.visibility = View.VISIBLE
+                    }
+                    is MyPetsFragment -> {
+                        binding.bottomNavigation.visibility = View.VISIBLE
+                    }
+                    else -> {
+                        binding.bottomNavigation.visibility = View.GONE
+                    }
+                }
+            }
+        }, true)
     }
 }

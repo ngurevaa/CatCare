@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import ru.kpfu.itis.gureva.catcare.domain.usecase.GetCatFactUseCase
 import ru.kpfu.itis.gureva.catcare.presentation.model.CatFactUIModel
 import javax.inject.Inject
@@ -17,6 +18,10 @@ class HelpfulViewModel @Inject constructor(
     val currentCatFactFlow: StateFlow<CatFactUIModel?>
         get() = _currentCatFactFlow
 
+    private val _errorFlow = MutableStateFlow<Throwable?>(null)
+    val errorFlow: StateFlow<Throwable?>
+        get() = _errorFlow
+
     fun getFact() {
         viewModelScope.launch {
             runCatching {
@@ -24,7 +29,7 @@ class HelpfulViewModel @Inject constructor(
             }.onSuccess {
                 _currentCatFactFlow.value = it
             }.onFailure {
-                it.printStackTrace()
+                _errorFlow.value = it
             }
         }
     }

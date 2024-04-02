@@ -13,7 +13,9 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.signature.ObjectKey
+import com.google.android.material.snackbar.Snackbar
 import dagger.Lazy
+import retrofit2.HttpException
 import ru.kpfu.itis.gureva.catcare.BuildConfig
 import ru.kpfu.itis.gureva.catcare.R
 import ru.kpfu.itis.gureva.catcare.databinding.FragmentCatFactBinding
@@ -57,27 +59,44 @@ class CatFactFragment : Fragment(R.layout.fragment_cat_fact) {
                 catFactUIModel?.let {
                     binding?.run {
                         tvFact.text = it.fact
-
-                        Glide.with(requireContext())
-                            .load(BuildConfig.CAT_GIF_BASE_URL)
-                            .signature(ObjectKey(System.currentTimeMillis()))
-                            .listener(object : RequestListener<Drawable> {
-                                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>, isFirstResource: Boolean
-                                ): Boolean {
-                                    return false
-                                }
-
-                                override fun onResourceReady(resource: Drawable, model: Any, target: Target<Drawable>?, dataSource: DataSource, isFirstResource: Boolean
-                                ): Boolean {
-                                    progressIndicator.visibility = View.INVISIBLE
-                                    return false
-                                }
-
-                            })
-                            .into(ivCat)
+                        downloadImage(BuildConfig.CAT_GIF_BASE_URL)
                     }
                 }
             }
+
+            errorFlow.observe(this@CatFactFragment) { error ->
+                error?.let {
+                    when (error) {
+                        is HttpException -> {
+                            downloadImage(BuildConfig.CAT_ERROR_BASE_URL + error.code())
+                        }
+                        else -> {
+                            binding?.root?.let { view -> Snackbar.make(view, "no internet", Snackbar.LENGTH_LONG).show() }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun downloadImage(url: String) {
+        binding?.run {
+            Glide.with(requireContext())
+                .load(url)
+                .signature(ObjectKey(System.currentTimeMillis()))
+                .listener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>, isFirstResource: Boolean
+                    ): Boolean {
+                        return false
+                    }
+
+                    override fun onResourceReady(resource: Drawable, model: Any, target: Target<Drawable>?, dataSource: DataSource, isFirstResource: Boolean
+                    ): Boolean {
+                        progressIndicator.visibility = View.INVISIBLE
+                        return false
+                    }
+                })
+                .into(ivCat)
         }
     }
 }
