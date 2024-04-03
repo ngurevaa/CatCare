@@ -2,6 +2,7 @@ package ru.kpfu.itis.gureva.catcare.presentation.ui.helpful
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -71,7 +72,7 @@ class CatFactFragment : Fragment(R.layout.fragment_cat_fact) {
                             downloadImage(BuildConfig.CAT_ERROR_BASE_URL + error.code())
                         }
                         else -> {
-                            binding?.root?.let { view -> Snackbar.make(view, "no internet", Snackbar.LENGTH_LONG).show() }
+                            binding?.root?.let { view -> Snackbar.make(view, getString(R.string.cat_fact_error), Snackbar.LENGTH_LONG).show() }
                         }
                     }
                 }

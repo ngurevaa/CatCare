@@ -7,12 +7,14 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.kpfu.itis.gureva.catcare.BuildConfig
 import ru.kpfu.itis.gureva.catcare.data.remote.CatFactsApi
+import ru.kpfu.itis.gureva.catcare.data.remote.interceptor.CatFactLanguageInterceptor
 import javax.inject.Singleton
 
 @Module
 class NetworkModule {
     @Provides
-    fun provideOkHttpClient(): OkHttpClient = OkHttpClient.Builder()
+    fun provideOkHttpClient(interceptor: CatFactLanguageInterceptor): OkHttpClient = OkHttpClient.Builder()
+        .addInterceptor(interceptor)
         .build()
 
     @Provides

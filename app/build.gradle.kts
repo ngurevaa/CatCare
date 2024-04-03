@@ -20,6 +20,7 @@ android {
         buildConfigField("String", "CAT_FACT_API_BASE_URL", "\"https://meowfacts.herokuapp.com\"")
         buildConfigField("String", "CAT_GIF_BASE_URL", "\"https://cataas.com/cat/gif\"")
         buildConfigField("String", "CAT_ERROR_BASE_URL", "\"https://http.cat/\"")
+        buildConfigField("String", "CAT_FACT_LANG_VALUE", "\"rus\"")
     }
 
     buildTypes {
