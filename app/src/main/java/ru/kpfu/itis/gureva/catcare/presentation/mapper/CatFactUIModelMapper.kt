@@ -1,4 +1,4 @@
-package ru.kpfu.itis.gureva.catcare.domain.mapper
+package ru.kpfu.itis.gureva.catcare.presentation.mapper
 
 import ru.kpfu.itis.gureva.catcare.domain.model.CatFactDomainModel
 import ru.kpfu.itis.gureva.catcare.presentation.model.CatFactUIModel

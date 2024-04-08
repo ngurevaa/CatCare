@@ -7,11 +7,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import ru.kpfu.itis.gureva.catcare.domain.usecase.GetCatFactUseCase
+import ru.kpfu.itis.gureva.catcare.presentation.mapper.CatFactUIModelMapper
 import ru.kpfu.itis.gureva.catcare.presentation.model.CatFactUIModel
 import javax.inject.Inject
 
 class HelpfulViewModel @Inject constructor(
-    private val getCatFactUseCase: GetCatFactUseCase
+    private val getCatFactUseCase: GetCatFactUseCase,
+    private val mapper: CatFactUIModelMapper
 ) : ViewModel() {
 
     private val _currentCatFactFlow = MutableStateFlow<CatFactUIModel?>(null)
@@ -25,7 +27,7 @@ class HelpfulViewModel @Inject constructor(
     fun getFact() {
         viewModelScope.launch {
             runCatching {
-                getCatFactUseCase.invoke()
+                mapper.mapDomainModelToUIModel(getCatFactUseCase.invoke())
             }.onSuccess {
                 _currentCatFactFlow.value = it
             }.onFailure {

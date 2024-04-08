@@ -1,4 +1,4 @@
-package ru.kpfu.itis.gureva.catcare.data.mapper
+package ru.kpfu.itis.gureva.catcare.domain.mapper
 
 import ru.kpfu.itis.gureva.catcare.data.remote.response.CatFactResponse
 import ru.kpfu.itis.gureva.catcare.domain.model.CatFactDomainModel

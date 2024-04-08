@@ -72,7 +72,10 @@ class CatFactFragment : Fragment(R.layout.fragment_cat_fact) {
                             downloadImage(BuildConfig.CAT_ERROR_BASE_URL + error.code())
                         }
                         else -> {
-                            binding?.root?.let { view -> Snackbar.make(view, getString(R.string.cat_fact_error), Snackbar.LENGTH_LONG).show() }
+                            binding?.run {
+                                progressIndicator.visibility = View.INVISIBLE
+                                Snackbar.make(root, getString(R.string.cat_fact_error), Snackbar.LENGTH_LONG).show()
+                            }
                         }
                     }
                 }
