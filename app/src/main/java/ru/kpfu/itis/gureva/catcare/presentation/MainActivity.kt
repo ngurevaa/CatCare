@@ -1,19 +1,27 @@
 package ru.kpfu.itis.gureva.catcare.presentation
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.CalendarConstraints.DateValidator
+import com.google.android.material.datepicker.DateValidatorPointBackward
+import com.google.android.material.datepicker.DateValidatorPointForward
+import com.google.android.material.datepicker.MaterialDatePicker
 import ru.kpfu.itis.gureva.catcare.R
 import ru.kpfu.itis.gureva.catcare.databinding.ActivityMainBinding
-import ru.kpfu.itis.gureva.catcare.presentation.adapter.RegistrationAdapter
-import ru.kpfu.itis.gureva.catcare.presentation.model.RegistrationViewPagerModel
-import ru.kpfu.itis.gureva.catcare.presentation.repository.RegistrationViewPagerModelRepository
+import ru.kpfu.itis.gureva.catcare.di.appComponent
 import ru.kpfu.itis.gureva.catcare.presentation.ui.diary.DiaryFragment
 import ru.kpfu.itis.gureva.catcare.presentation.ui.helpful.HelpfulFragment
 import ru.kpfu.itis.gureva.catcare.presentation.ui.pets.MyPetsFragment
-import ru.kpfu.itis.gureva.catcare.presentation.ui.registration.RegistrationViewPagerFragment
+import ru.kpfu.itis.gureva.catcare.presentation.ui.registration.RegistrationFragment
+import java.util.Calendar
+import java.util.TimeZone
+import javax.inject.Inject
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,35 +29,46 @@ class MainActivity : AppCompatActivity() {
 
     private val fragmentContainerId: Int = R.id.main_container
 
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        appComponent.inject(this)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        setBottomNavigationItemSelectedListener()
-//        registerFragmentLifecycleCallbacksForBottomNavigation()
+        supportFragmentManager.beginTransaction()
+            .replace(fragmentContainerId, RegistrationFragment())
+            .commit()
+        setBottomNavigationItemSelectedListener()
+        registerFragmentLifecycleCallbacksForBottomNavigation()
 //
-//        if (savedInstanceState == null) {
-//            supportFragmentManager.beginTransaction()
-//                .add(fragmentContainerId, MyPetsFragment())
-//                .commit()
+//        if (!sharedPreferences.getBoolean(Keys.REGISTRATION_KEY, false)) {
+//            binding.run {
+//                bottomNavigation.visibility = View.INVISIBLE
+//                viewPager.visibility = View.VISIBLE
+//
+//                val list: ArrayList<RegistrationViewPagerFragment> = ArrayList()
+//                for (index in RegistrationViewPagerModelRepository.list.indices) {
+//                    val model = RegistrationViewPagerModelRepository.list[index]
+//
+//                    list.add(RegistrationViewPagerFragment.getInstance(
+//                        model.title, model.description, model.image,
+//                        index == RegistrationViewPagerModelRepository.list.size - 1)
+//                    )
+//                }
+//                viewPager.adapter = RegistrationViewPagerAdapter(list, supportFragmentManager, lifecycle)
+//                dotsIndicator.attachTo(viewPager)
+//            }
 //        }
-        binding.run {
-            bottomNavigation.visibility = View.INVISIBLE
-
-            val list: ArrayList<RegistrationViewPagerFragment> = ArrayList()
-            for (index in RegistrationViewPagerModelRepository.list.indices) {
-                val model = RegistrationViewPagerModelRepository.list[index]
-
-                list.add(RegistrationViewPagerFragment.getInstance(
-                    model.title, model.description, model.image,
-                    index == RegistrationViewPagerModelRepository.list.size - 1)
-                )
-            }
-            viewPager.adapter = RegistrationAdapter(list, supportFragmentManager, lifecycle)
-            dotsIndicator.attachTo(viewPager)
-        }
-
+//        else {
+//            if (savedInstanceState == null) {
+//                supportFragmentManager.beginTransaction()
+//                    .add(fragmentContainerId, MyPetsFragment())
+//                    .commit()
+//            }
+//        }
     }
 
     private fun setBottomNavigationItemSelectedListener() {

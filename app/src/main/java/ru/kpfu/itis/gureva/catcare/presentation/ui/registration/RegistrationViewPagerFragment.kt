@@ -9,6 +9,7 @@ import ru.kpfu.itis.gureva.catcare.databinding.FragmentRegistrationViewPagerBind
 
 class RegistrationViewPagerFragment : Fragment(R.layout.fragment_registration_view_pager) {
     private var binding: FragmentRegistrationViewPagerBinding? = null
+    private val fragmentContainerId: Int = R.id.main_container
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -23,6 +24,12 @@ class RegistrationViewPagerFragment : Fragment(R.layout.fragment_registration_vi
 
             if (arguments?.getBoolean(ARG_LAST) == true) {
                 btnStart.visibility = View.VISIBLE
+
+                btnStart.setOnClickListener {
+                    parentFragmentManager.beginTransaction()
+                        .replace(fragmentContainerId, RegistrationFragment())
+                        .commit()
+                }
             }
         }
     }

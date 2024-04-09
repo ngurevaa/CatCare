@@ -7,4 +7,12 @@
     <string name="btn_another_fact">Другой факт</string>
     <string name="cat_fact_error">Произошла ошибка. Проверьте подключение к интернету.</string>
     <string name="btn_start">Начать</string>
+    <string name="name">Имя</string>
+    <string name="breed">Порода</string>
+    <string name="gender">Пол</string>
+    <string name="gender_female">Женский</string>
+    <string name="gender_male">Мужской</string>
+    <string name="birth_day">День рождения</string>
+    <string name="btn_save">Сохранить</string>
+    <string name="error_field_must_not_be_empty">Поле не должно быть пустым</string>
 </resources>
