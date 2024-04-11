@@ -111,8 +111,8 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
     private fun savePet() {
         if (checkFields()) {
             binding?.run {
-                pet?.name = etName.text.toString()
-                pet?.breed = etBreed.text.toString()
+                pet?.name = etName.text.toString().trim()
+                pet?.breed = etBreed.text.toString().trim()
                 pet?.gender = etGender.text.toString()
 
                 if (editPhoto) { savePhoto() }
@@ -144,7 +144,6 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
         uploadTask.addOnSuccessListener {
             storageRef.child("$fileName").downloadUrl.addOnSuccessListener {
                 pet?.image = it.toString()
-                // надо скачивать картинку на сервер только если пользователь сохраняет ее
             }.addOnFailureListener {
                 binding?.let { Snackbar.make(it.root, getString(R.string.internet_connection_error), Snackbar.LENGTH_LONG).show() }
             }
@@ -183,16 +182,15 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
             layoutBreed.error = null
             layoutName.error = null
 
-            // добавить проверки на длину
-            if (etName.text.isNullOrEmpty()) {
+            if (etName.text.isNullOrBlank()) {
                 layoutName.error = getString(R.string.error_field_must_not_be_empty)
                 return false
             }
-            else if (etGender.text.isNullOrEmpty()) {
+            else if (etGender.text.isNullOrBlank()) {
                 layoutGender.error = getString(R.string.error_field_must_not_be_empty)
                 return false
             }
-            else if (etBreed.text.isNullOrEmpty()) {
+            else if (etBreed.text.isNullOrBlank()) {
                 layoutBreed.error = getString(R.string.error_field_must_not_be_empty)
                 return false
             }
