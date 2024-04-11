@@ -6,20 +6,13 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.google.android.material.datepicker.CalendarConstraints
-import com.google.android.material.datepicker.CalendarConstraints.DateValidator
-import com.google.android.material.datepicker.DateValidatorPointBackward
-import com.google.android.material.datepicker.DateValidatorPointForward
-import com.google.android.material.datepicker.MaterialDatePicker
 import ru.kpfu.itis.gureva.catcare.R
 import ru.kpfu.itis.gureva.catcare.databinding.ActivityMainBinding
 import ru.kpfu.itis.gureva.catcare.di.appComponent
 import ru.kpfu.itis.gureva.catcare.presentation.ui.diary.DiaryFragment
 import ru.kpfu.itis.gureva.catcare.presentation.ui.helpful.HelpfulFragment
 import ru.kpfu.itis.gureva.catcare.presentation.ui.pets.MyPetsFragment
-import ru.kpfu.itis.gureva.catcare.presentation.ui.registration.RegistrationFragment
-import java.util.Calendar
-import java.util.TimeZone
+import ru.kpfu.itis.gureva.catcare.presentation.ui.profile.PetProfileEditingFragment
 import javax.inject.Inject
 
 
@@ -39,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         supportFragmentManager.beginTransaction()
-            .replace(fragmentContainerId, RegistrationFragment())
+            .replace(fragmentContainerId, PetProfileEditingFragment())
             .commit()
         setBottomNavigationItemSelectedListener()
         registerFragmentLifecycleCallbacksForBottomNavigation()

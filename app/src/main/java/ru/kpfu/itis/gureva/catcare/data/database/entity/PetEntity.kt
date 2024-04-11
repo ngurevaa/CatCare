@@ -8,9 +8,10 @@ import androidx.room.PrimaryKey
 data class PetEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
-    val name: String,
+    var name: String,
     @ColumnInfo(name = "birth_day")
-    val birthDay: String,
-    val breed: String,
-    val gender: String
+    var birthDay: String,
+    var breed: String,
+    var gender: String,
+    var image: String?
 )

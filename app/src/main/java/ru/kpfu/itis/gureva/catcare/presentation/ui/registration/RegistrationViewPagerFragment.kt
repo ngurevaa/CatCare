@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import ru.kpfu.itis.gureva.catcare.R
 import ru.kpfu.itis.gureva.catcare.databinding.FragmentRegistrationViewPagerBinding
+import ru.kpfu.itis.gureva.catcare.presentation.ui.profile.PetProfileEditingFragment
 
 class RegistrationViewPagerFragment : Fragment(R.layout.fragment_registration_view_pager) {
     private var binding: FragmentRegistrationViewPagerBinding? = null
@@ -27,7 +28,7 @@ class RegistrationViewPagerFragment : Fragment(R.layout.fragment_registration_vi
 
                 btnStart.setOnClickListener {
                     parentFragmentManager.beginTransaction()
-                        .replace(fragmentContainerId, RegistrationFragment())
+                        .replace(fragmentContainerId, PetProfileEditingFragment())
                         .commit()
                 }
             }

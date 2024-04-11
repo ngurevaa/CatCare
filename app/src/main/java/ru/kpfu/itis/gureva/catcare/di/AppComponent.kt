@@ -10,7 +10,7 @@ import ru.kpfu.itis.gureva.catcare.presentation.MainActivity
 import ru.kpfu.itis.gureva.catcare.presentation.di.ViewModelBinderModule
 import ru.kpfu.itis.gureva.catcare.presentation.ui.helpful.CatFactFragment
 import ru.kpfu.itis.gureva.catcare.presentation.ui.helpful.HelpfulFragment
-import ru.kpfu.itis.gureva.catcare.presentation.ui.registration.RegistrationFragment
+import ru.kpfu.itis.gureva.catcare.presentation.ui.profile.PetProfileEditingFragment
 import javax.inject.Singleton
 
 @Singleton
@@ -33,6 +33,6 @@ interface AppComponent {
     fun inject(activity: MainActivity)
     fun inject(fragment: HelpfulFragment)
     fun inject(fragment: CatFactFragment)
-    fun inject(fragment: RegistrationFragment)
+    fun inject(fragment: PetProfileEditingFragment)
 }
 
