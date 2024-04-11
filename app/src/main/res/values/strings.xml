@@ -5,4 +5,7 @@
     <string name="my_pets">Мои питомцы</string>
     <string name="diary">Дневник</string>
     <string name="helpful">Полезное</string>
+    <string name="btn_fact">Факт о кошках</string>
+    <string name="btn_another_fact">Другой факт</string>
+    <string name="cat_fact_error">Произошла ошибка. Проверьте подключение к интернету.</string>
 </resources>

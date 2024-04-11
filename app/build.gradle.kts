@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -15,6 +16,11 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "CAT_FACT_API_BASE_URL", "\"https://meowfacts.herokuapp.com\"")
+        buildConfigField("String", "CAT_GIF_BASE_URL", "\"https://cataas.com/cat/gif\"")
+        buildConfigField("String", "CAT_ERROR_BASE_URL", "\"https://http.cat/\"")
+        buildConfigField("String", "CAT_FACT_LANG_VALUE", "\"rus\"")
     }
 
     buildTypes {
@@ -33,9 +39,38 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    buildFeatures {
+        viewBinding = true
+        buildConfig = true
+    }
 }
 
 dependencies {
+    val glideVersion = "4.16.0"
+    implementation("com.github.bumptech.glide:glide:$glideVersion")
+
+    val dotsIndicatorVersion = "5.0"
+    implementation("com.tbuonomo:dotsindicator:$dotsIndicatorVersion")
+
+    val daggerVersion = "2.50"
+    implementation("com.google.dagger:dagger:$daggerVersion")
+    kapt("com.google.dagger:dagger-compiler:$daggerVersion")
+
+    val fragmentVersion = "1.6.2"
+    implementation("androidx.fragment:fragment-ktx:$fragmentVersion")
+
+    val coroutinesVersion = "1.3.9"
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
+
+    val lifecycleVersion = "2.4.0"
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
+
+    val retrofitVersion = "2.9.0"
+    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
