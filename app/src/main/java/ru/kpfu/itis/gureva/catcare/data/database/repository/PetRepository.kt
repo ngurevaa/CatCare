@@ -1,6 +1,7 @@
 package ru.kpfu.itis.gureva.catcare.data.database.repository
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -11,8 +12,10 @@ import javax.inject.Inject
 class PetRepository @Inject constructor(
     private val petDao: PetDao
 ) {
-    fun getById(id: Int): Flow<PetEntity?> {
-        return petDao.getById(id)
+    suspend fun getById(id: Int): PetEntity? {
+        return withContext(Dispatchers.IO) {
+            petDao.getById(id)
+        }
     }
 
     suspend fun save(pet: PetEntity) {
@@ -21,9 +24,9 @@ class PetRepository @Inject constructor(
         }
     }
 
-    suspend fun update(pet: PetEntity) {
-        withContext(Dispatchers.IO) {
-            petDao.update(pet.id, pet.name, pet.birthDay, pet.breed, pet.gender, pet.image)
+    suspend fun getAll(): List<PetEntity>? {
+        return withContext(Dispatchers.IO) {
+            petDao.getAll()
         }
     }
 }

@@ -7,12 +7,16 @@ import android.content.SharedPreferences
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.edit
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -24,6 +28,7 @@ import com.bumptech.glide.request.target.Target
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Firebase
 import com.google.firebase.storage.storage
@@ -58,18 +63,11 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
         viewModelFactory.get()
     }
 
-    private val storageRef = Firebase.storage.reference
-
-    private var pet: PetEntity? = null
-
-    private var editPhoto = false
-
     private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            editPhoto = true
             val imageUri = result.data?.data
             uploadImage(imageUri.toString())
-            pet?.image = imageUri.toString()
+            viewModel.setImage(imageUri.toString())
         }
     }
 
@@ -82,20 +80,25 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentPetProfileEditingBinding.bind(view)
 
+        observeEditTexts()
+        initTextChangeListeners()
         binding?.run {
-            init()
-
-            etBirthDay.setOnClickListener {
-                val datePicker = getDatePicker()
-                datePicker.addOnPositiveButtonClickListener {
-                    pet?.birthDay = SimpleDateFormat(Formatter.DATE_WITHOUT_TIME).format(Date(it))
-                    binding?.etBirthDay?.setText(pet?.birthDay)
-                }
-                datePicker.show(parentFragmentManager, null)
-            }
+            MaterialAlertDialogBuilder(requireContext())
+                .setView(requireActivity().layoutInflater.inflate(R.layout.dialog_progress, null))
+                .setCancelable(false)
+                .show()
 
             btnSave.setOnClickListener {
-                savePet()
+                viewModel.savePet()
+            }
+
+            etBirthDay.setOnClickListener {
+                val datePicker = getDatePicker(
+                    viewModel.birthDay.value ?: SimpleDateFormat(Formatter.DATE_WITHOUT_TIME).format(Date()))
+                datePicker.addOnPositiveButtonClickListener {
+                    viewModel.setBirthDay(SimpleDateFormat(Formatter.DATE_WITHOUT_TIME).format(Date(it)))
+                }
+                datePicker.show(parentFragmentManager, null)
             }
 
             ivCat.setOnClickListener {
@@ -108,101 +111,98 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
         }
     }
 
-    private fun savePet() {
-        if (checkFields()) {
-            binding?.run {
-                pet?.name = etName.text.toString().trim()
-                pet?.breed = etBreed.text.toString().trim()
-                pet?.gender = etGender.text.toString()
+    private fun observeEditTexts() {
+        binding?.run {
+            viewModel.name.observe(viewLifecycleOwner) {
+                if (etName.text.toString() != it) {
+                    etName.setText(it)
+                }
+            }
 
-                if (editPhoto) { savePhoto() }
+            viewModel.breed.observe(viewLifecycleOwner) {
+                if (etBreed.text.toString() != it) {
+                    etBreed.setText(it)
+                }
+            }
 
-                if (sharedPreferences.getBoolean(Keys.REGISTRATION_KEY, false)) {
-                    pet?.let { viewModel.updatePet(it) }
+            viewModel.gender.observe(viewLifecycleOwner) {
+                if (etGender.text.toString() != it) {
+                    etGender.setText(it)
+                }
+            }
 
-                    sharedPreferences.edit {
-                        putBoolean(Keys.REGISTRATION_KEY, true)
+            viewModel.birthDay.observe(viewLifecycleOwner) {
+                if (etBirthDay.text.toString() != it) {
+                    etBirthDay.setText(it)
+                }
+            }
+
+            viewModel.image.observe(viewLifecycleOwner) {
+                it?.let { uploadImage(it) }
+            }
+
+            viewModel.fieldError.observe(viewLifecycleOwner) {
+                layoutName.error = null
+                layoutBreed.error = null
+                layoutGender.error = null
+                when (it) {
+                    "name" -> {
+                        layoutName.error = getString(R.string.error_field_must_not_be_empty)
+                    }
+                    "breed" -> {
+                        layoutBreed.error = getString(R.string.error_field_must_not_be_empty)
+                    }
+                    "gender" -> {
+                        layoutGender.error = getString(R.string.error_field_must_not_be_empty)
+                    }
+                    "" -> {
+                        MaterialAlertDialogBuilder(requireContext())
+                            .setView(requireActivity().layoutInflater.inflate(R.layout.dialog_progress, null))
+                            .setCancelable(false)
+                            .show()
+
+//                        if (sharedPreferences.getBoolean(Keys.REGISTRATION_KEY, false)) {
+//                            sharedPreferences.edit {
+//                                putBoolean(Keys.REGISTRATION_KEY, true)
+//                            }
+//                        }
+//
+//                        Intent().apply {
+//                            setClass(requireActivity(), MainActivity::class.java)
+//                        }.also {
+//                            requireActivity().startActivity(it)
+//                        }
                     }
                 }
-                else {
-                    pet?.let { viewModel.savePet(it) }
-                }
-            }
-
-            Intent().apply {
-                setClass(requireActivity(), MainActivity::class.java)
-            }.also {
-                requireActivity().startActivity(it)
             }
         }
     }
 
-    private fun savePhoto() {
-        val fileName = UUID.randomUUID()
-        val uploadTask = storageRef.child("$fileName").putFile(Uri.parse(pet?.image))
-
-        uploadTask.addOnSuccessListener {
-            storageRef.child("$fileName").downloadUrl.addOnSuccessListener {
-                pet?.image = it.toString()
-            }.addOnFailureListener {
-                binding?.let { Snackbar.make(it.root, getString(R.string.internet_connection_error), Snackbar.LENGTH_LONG).show() }
-            }
-        }.addOnFailureListener {
-            binding?.let { Snackbar.make(it.root, getString(R.string.internet_connection_error), Snackbar.LENGTH_LONG).show() }
-        }
-    }
-
-    private fun init() {
+    private fun initTextChangeListeners() {
         binding?.run {
-            lifecycleScope.launch {
-                pet = viewModel.getPet().firstOrNull()
+            etName.doOnTextChanged { text, start, before, count ->
+                viewModel.setName(text?.trim().toString())
+            }
 
-                if (pet != null) {
-                    etName.setText(pet?.name)
-                    etBreed.setText(pet?.breed)
-                    etGender.setText(pet?.gender)
-                    etBirthDay.setText(pet?.birthDay)
+            etBreed.doOnTextChanged { text, start, before, count ->
+                viewModel.setBreed(text?.trim().toString())
+            }
 
-                    if (pet?.image != null) {
-                        uploadImage(pet?.image.toString())
-                    }
-                }
-                else {
-                    pet = PetEntity(1, "", "", "", "", null)
-                    pet?.birthDay = SimpleDateFormat(Formatter.DATE_WITHOUT_TIME).format(Date())
-                    etBirthDay.setText(pet?.birthDay)
-                }
+            etGender.doOnTextChanged { text, start, before, count ->
+                viewModel.setGender(text?.trim().toString())
+            }
+
+            etBirthDay.doOnTextChanged { text, start, before, count ->
+                viewModel.setBirthDay(text?.trim().toString())
             }
         }
     }
 
-    private fun checkFields(): Boolean {
-        binding?.run {
-            layoutGender.error = null
-            layoutBreed.error = null
-            layoutName.error = null
-
-            if (etName.text.isNullOrBlank()) {
-                layoutName.error = getString(R.string.error_field_must_not_be_empty)
-                return false
-            }
-            else if (etGender.text.isNullOrBlank()) {
-                layoutGender.error = getString(R.string.error_field_must_not_be_empty)
-                return false
-            }
-            else if (etBreed.text.isNullOrBlank()) {
-                layoutBreed.error = getString(R.string.error_field_must_not_be_empty)
-                return false
-            }
-        }
-        return true
-    }
-
-    private fun getDatePicker(): MaterialDatePicker<Long> {
+    private fun getDatePicker(date: String): MaterialDatePicker<Long> {
         val dateValidator: CalendarConstraints.DateValidator = DateValidatorPointBackward.now()
 
         return MaterialDatePicker.Builder.datePicker()
-            .setSelection(SimpleDateFormat(Formatter.DATE_WITHOUT_TIME).parse(pet?.birthDay).time)
+            .setSelection(SimpleDateFormat(Formatter.DATE_WITHOUT_TIME).parse(date).time)
             .setCalendarConstraints(
                 CalendarConstraints.Builder().setValidator(dateValidator).build()
             )

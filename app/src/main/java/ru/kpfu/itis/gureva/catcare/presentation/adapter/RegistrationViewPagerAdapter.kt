@@ -4,10 +4,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import ru.kpfu.itis.gureva.catcare.presentation.ui.registration.RegistrationViewPagerFragment
+import ru.kpfu.itis.gureva.catcare.presentation.ui.registration.WelcomeFragment
+import ru.kpfu.itis.gureva.catcare.presentation.ui.registration.WelcomeViewPagerFragment
 
 class RegistrationViewPagerAdapter(
-    private val list: List<RegistrationViewPagerFragment>,
+    private val list: List<WelcomeFragment>,
     manager: FragmentManager,
     lifecycle: Lifecycle
 ) : FragmentStateAdapter(manager, lifecycle) {

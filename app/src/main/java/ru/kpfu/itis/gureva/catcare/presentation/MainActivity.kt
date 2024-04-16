@@ -10,15 +10,12 @@ import ru.kpfu.itis.gureva.catcare.R
 import ru.kpfu.itis.gureva.catcare.base.Keys
 import ru.kpfu.itis.gureva.catcare.databinding.ActivityMainBinding
 import ru.kpfu.itis.gureva.catcare.di.appComponent
-import ru.kpfu.itis.gureva.catcare.presentation.adapter.RegistrationViewPagerAdapter
-import ru.kpfu.itis.gureva.catcare.presentation.repository.RegistrationViewPagerModelRepository
 import ru.kpfu.itis.gureva.catcare.presentation.ui.diary.DiaryFragment
 import ru.kpfu.itis.gureva.catcare.presentation.ui.helpful.HelpfulFragment
 import ru.kpfu.itis.gureva.catcare.presentation.ui.pets.MyPetsFragment
 import ru.kpfu.itis.gureva.catcare.presentation.ui.profile.PetProfileEditingFragment
-import ru.kpfu.itis.gureva.catcare.presentation.ui.registration.RegistrationViewPagerFragment
+import ru.kpfu.itis.gureva.catcare.presentation.ui.registration.WelcomeViewPagerFragment
 import javax.inject.Inject
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,34 +32,28 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(fragmentContainerId, PetProfileEditingFragment())
+                .commit()
+        }
+
         setBottomNavigationItemSelectedListener()
         registerFragmentLifecycleCallbacksForBottomNavigation()
+        checkUserRegistration()
+    }
 
-        if (!sharedPreferences.getBoolean(Keys.REGISTRATION_KEY, false)) {
-            binding.run {
-                bottomNavigation.visibility = View.INVISIBLE
-                viewPager.visibility = View.VISIBLE
-
-                val list: ArrayList<RegistrationViewPagerFragment> = ArrayList()
-                for (index in RegistrationViewPagerModelRepository.list.indices) {
-                    val model = RegistrationViewPagerModelRepository.list[index]
-
-                    list.add(RegistrationViewPagerFragment.getInstance(
-                        model.title, model.description, model.image,
-                        index == RegistrationViewPagerModelRepository.list.size - 1)
-                    )
-                }
-                viewPager.adapter = RegistrationViewPagerAdapter(list, supportFragmentManager, lifecycle)
-                dotsIndicator.attachTo(viewPager)
-            }
-        }
-        else {
-            if (savedInstanceState == null) {
-                supportFragmentManager.beginTransaction()
-                    .add(fragmentContainerId, MyPetsFragment())
-                    .commit()
-            }
-        }
+    private fun checkUserRegistration() {
+//        if (!sharedPreferences.getBoolean(Keys.REGISTRATION_KEY, false)) {
+//            supportFragmentManager.beginTransaction()
+//                .replace(fragmentContainerId, WelcomeViewPagerFragment())
+//                .commit()
+//        }
+//        else {
+//            supportFragmentManager.beginTransaction()
+//                .replace(fragmentContainerId, MyPetsFragment())
+//                .commit()
+//        }
     }
 
     private fun setBottomNavigationItemSelectedListener() {

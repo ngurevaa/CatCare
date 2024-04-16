@@ -5,16 +5,17 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import ru.kpfu.itis.gureva.catcare.R
-import ru.kpfu.itis.gureva.catcare.databinding.FragmentRegistrationViewPagerBinding
+import ru.kpfu.itis.gureva.catcare.databinding.FragmentWelcomeBinding
 import ru.kpfu.itis.gureva.catcare.presentation.ui.profile.PetProfileEditingFragment
 
-class RegistrationViewPagerFragment : Fragment(R.layout.fragment_registration_view_pager) {
-    private var binding: FragmentRegistrationViewPagerBinding? = null
-    private val fragmentContainerId: Int = R.id.main_container
+class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
+    private var binding: FragmentWelcomeBinding? = null
+
+    private val fragmentContainerId = R.id.main_container
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentRegistrationViewPagerBinding.bind(view)
+        binding = FragmentWelcomeBinding.bind(view)
 
         binding?.run {
             tvTitle.text = arguments?.getString(ARG_TITLE)
@@ -41,7 +42,7 @@ class RegistrationViewPagerFragment : Fragment(R.layout.fragment_registration_vi
         private const val ARG_IMAGE = "arg_image"
         private const val ARG_LAST = "arg_last"
 
-        fun getInstance(title: String, description: String, image: Int, last: Boolean) = RegistrationViewPagerFragment().apply {
+        fun getInstance(title: String, description: String, image: Int, last: Boolean) = WelcomeFragment().apply {
             arguments = Bundle().apply {
                 putString(ARG_TITLE, title)
                 putString(ARG_DESCRIPTION, description)

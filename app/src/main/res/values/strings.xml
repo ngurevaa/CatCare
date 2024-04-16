@@ -16,4 +16,5 @@
     <string name="btn_save">Сохранить</string>
     <string name="error_field_must_not_be_empty">Поле не должно быть пустым</string>
     <string name="edit">Редактировать</string>
+    <string name="download">Идет загрузка</string>
 </resources>
