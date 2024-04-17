@@ -150,7 +150,7 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
                             .setCancelable(false)
                             .show()
 
-                        if (sharedPreferences.getBoolean(Keys.REGISTRATION_KEY, false)) {
+                        if (!sharedPreferences.getBoolean(Keys.REGISTRATION_KEY, false)) {
                             sharedPreferences.edit {
                                 putBoolean(Keys.REGISTRATION_KEY, true)
                             }
@@ -165,7 +165,7 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
                     DownloadStatus.OK -> {
                         MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog)
                             .setCancelable(false)
-                            .setMessage(getString(R.string.download_successful))
+                            .setTitle(getString(R.string.download_successful))
                             .setPositiveButton(getString(R.string.btn_ok)) {_, _ ->
                                 Intent().apply {
                                     setClass(requireActivity(), MainActivity::class.java)
@@ -177,7 +177,7 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
                     }
                     DownloadStatus.ERROR -> {
                         MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog)
-                            .setMessage(getString(R.string.internet_connection_error))
+                            .setTitle(getString(R.string.internet_connection_error))
                             .setPositiveButton(getString(R.string.btn_ok)) {_, _ -> }
                             .show()
                     }

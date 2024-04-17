@@ -28,7 +28,7 @@ class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
                 btnStart.visibility = View.VISIBLE
 
                 btnStart.setOnClickListener {
-                    parentFragmentManager.beginTransaction()
+                    requireActivity().supportFragmentManager.beginTransaction()
                         .replace(fragmentContainerId, PetProfileEditingFragment())
                         .commit()
                 }

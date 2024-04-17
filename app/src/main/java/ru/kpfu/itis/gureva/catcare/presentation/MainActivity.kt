@@ -32,28 +32,24 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(fragmentContainerId, PetProfileEditingFragment())
-                .commit()
-        }
-
         setBottomNavigationItemSelectedListener()
         registerFragmentLifecycleCallbacksForBottomNavigation()
-        checkUserRegistration()
+        checkUserRegistration(savedInstanceState)
     }
 
-    private fun checkUserRegistration() {
-//        if (!sharedPreferences.getBoolean(Keys.REGISTRATION_KEY, false)) {
-//            supportFragmentManager.beginTransaction()
-//                .replace(fragmentContainerId, WelcomeViewPagerFragment())
-//                .commit()
-//        }
-//        else {
-//            supportFragmentManager.beginTransaction()
-//                .replace(fragmentContainerId, MyPetsFragment())
-//                .commit()
-//        }
+    private fun checkUserRegistration(savedInstanceState: Bundle?) {
+        if (savedInstanceState == null) {
+            if (!sharedPreferences.getBoolean(Keys.REGISTRATION_KEY, false)) {
+                supportFragmentManager.beginTransaction()
+                    .replace(fragmentContainerId, WelcomeViewPagerFragment())
+                    .commit()
+            }
+            else {
+                supportFragmentManager.beginTransaction()
+                    .replace(fragmentContainerId, MyPetsFragment())
+                    .commit()
+            }
+        }
     }
 
     private fun setBottomNavigationItemSelectedListener() {

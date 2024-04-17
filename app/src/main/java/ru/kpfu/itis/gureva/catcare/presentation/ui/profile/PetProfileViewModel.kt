@@ -127,7 +127,6 @@ class PetProfileViewModel @Inject constructor(
     private fun savePhoto() {
         if (image.value != pet?.image && image.value != null) {
             val fileName = UUID.randomUUID()
-            Log.e("image", image.value.toString())
             val uploadTask = storageRef.child("$fileName").putFile(Uri.parse(image.value))
 
             uploadTask.addOnSuccessListener {
@@ -135,13 +134,14 @@ class PetProfileViewModel @Inject constructor(
                     _image.value = it.toString()
                     _downloadStatus.value = DownloadStatus.OK
                 }.addOnFailureListener {
-                    it.printStackTrace()
                     _downloadStatus.value = DownloadStatus.ERROR
                 }
             }.addOnFailureListener {
-                it.printStackTrace()
                 _downloadStatus.value = DownloadStatus.ERROR
             }
+        }
+        else {
+            _downloadStatus.value = DownloadStatus.OK
         }
     }
 }
