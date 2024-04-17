@@ -6,17 +6,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Firebase
 import com.google.firebase.storage.storage
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import ru.kpfu.itis.gureva.catcare.R
 import ru.kpfu.itis.gureva.catcare.data.database.entity.PetEntity
 import ru.kpfu.itis.gureva.catcare.data.database.repository.PetRepository
+import ru.kpfu.itis.gureva.catcare.utils.DownloadStatus
+import ru.kpfu.itis.gureva.catcare.utils.FieldError
 import ru.kpfu.itis.gureva.catcare.utils.Formatter
-import ru.kpfu.itis.gureva.catcare.utils.ResourceManager
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.UUID
@@ -48,9 +45,13 @@ class PetProfileViewModel @Inject constructor(
 
     private var pet: PetEntity? =null
 
-    private val _fieldError = MutableLiveData<String>()
-    val fieldError: LiveData<String>
+    private val _fieldError = MutableLiveData<FieldError>()
+    val fieldError: LiveData<FieldError>
         get() = _fieldError
+
+    private val _downloadStatus = MutableLiveData<DownloadStatus>()
+    val downloadStatus: LiveData<DownloadStatus>
+        get() = _downloadStatus
 
     private val storageRef = Firebase.storage.reference
 
@@ -106,19 +107,19 @@ class PetProfileViewModel @Inject constructor(
 
     private fun checkFieldValidation(): Boolean {
         if (name.value.isNullOrBlank()) {
-            _fieldError.value = "name"
+            _fieldError.value = FieldError.NAME
             return false
         }
         else if (breed.value.isNullOrBlank()) {
-            _fieldError.value = "breed"
+            _fieldError.value = FieldError.BREED
             return false
         }
         else if (gender.value.isNullOrBlank()) {
-            _fieldError.value = "gender"
+            _fieldError.value = FieldError.GENDER
             return false
         }
         else {
-            _fieldError.value = ""
+            _fieldError.value = FieldError.NONE
         }
         return true
     }
@@ -126,19 +127,21 @@ class PetProfileViewModel @Inject constructor(
     private fun savePhoto() {
         if (image.value != pet?.image && image.value != null) {
             val fileName = UUID.randomUUID()
+            Log.e("image", image.value.toString())
             val uploadTask = storageRef.child("$fileName").putFile(Uri.parse(image.value))
 
             uploadTask.addOnSuccessListener {
                 storageRef.child("$fileName").downloadUrl.addOnSuccessListener {
                     _image.value = it.toString()
-                    // здесь можно сделать лоадинг бар и когда все сохранится перейти на экран профиля либо показать что произошли какие то ошибки
+                    _downloadStatus.value = DownloadStatus.OK
                 }.addOnFailureListener {
-//                    binding?.let { Snackbar.make(it.root, getString(R.string.internet_connection_error), Snackbar.LENGTH_LONG).show() }
+                    it.printStackTrace()
+                    _downloadStatus.value = DownloadStatus.ERROR
                 }
             }.addOnFailureListener {
-//                binding?.let { Snackbar.make(it.root, getString(R.string.internet_connection_error), Snackbar.LENGTH_LONG).show() }
+                it.printStackTrace()
+                _downloadStatus.value = DownloadStatus.ERROR
             }
         }
     }
-
 }

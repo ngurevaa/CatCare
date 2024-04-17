@@ -17,4 +17,6 @@
     <string name="error_field_must_not_be_empty">Поле не должно быть пустым</string>
     <string name="edit">Редактировать</string>
     <string name="download">Идет загрузка</string>
+    <string name="download_successful">Загрузка успешно завершена</string>
+    <string name="btn_ok">ОК</string>
 </resources>

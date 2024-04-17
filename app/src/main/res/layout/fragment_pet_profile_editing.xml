@@ -83,7 +83,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_gender"
-        style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        style="@style/Widget.App.ExposedDropdownMenu"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/layout_breed"
@@ -95,6 +95,7 @@
 
         <AutoCompleteTextView
             android:id="@+id/et_gender"
+            style="@style/Autocomplete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="none"

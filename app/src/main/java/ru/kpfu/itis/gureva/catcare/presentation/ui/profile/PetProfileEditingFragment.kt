@@ -5,20 +5,19 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.ArrayRes
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.edit
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -29,25 +28,18 @@ import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.Firebase
-import com.google.firebase.storage.storage
 import dagger.Lazy
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.launch
 import ru.kpfu.itis.gureva.catcare.R
 import ru.kpfu.itis.gureva.catcare.base.Keys
-import ru.kpfu.itis.gureva.catcare.data.database.entity.PetEntity
-import ru.kpfu.itis.gureva.catcare.data.database.repository.PetRepository
 import ru.kpfu.itis.gureva.catcare.databinding.FragmentPetProfileEditingBinding
 import ru.kpfu.itis.gureva.catcare.di.appComponent
 import ru.kpfu.itis.gureva.catcare.presentation.MainActivity
-import ru.kpfu.itis.gureva.catcare.presentation.ui.helpful.HelpfulViewModel
+import ru.kpfu.itis.gureva.catcare.utils.DownloadStatus
+import ru.kpfu.itis.gureva.catcare.utils.FieldError
 import ru.kpfu.itis.gureva.catcare.utils.Formatter
 import java.text.SimpleDateFormat
+import java.util.Arrays
 import java.util.Date
-import java.util.UUID
 import javax.inject.Inject
 
 class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing) {
@@ -62,6 +54,8 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
     private val viewModel: PetProfileViewModel by viewModels {
         viewModelFactory.get()
     }
+
+    private var alertDialog: AlertDialog? = null
 
     private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
@@ -83,11 +77,6 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
         observeEditTexts()
         initTextChangeListeners()
         binding?.run {
-            MaterialAlertDialogBuilder(requireContext())
-                .setView(requireActivity().layoutInflater.inflate(R.layout.dialog_progress, null))
-                .setCancelable(false)
-                .show()
-
             btnSave.setOnClickListener {
                 viewModel.savePet()
             }
@@ -127,7 +116,7 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
 
             viewModel.gender.observe(viewLifecycleOwner) {
                 if (etGender.text.toString() != it) {
-                    etGender.setText(it)
+                    etGender.setText(it, false)
                 }
             }
 
@@ -146,32 +135,51 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
                 layoutBreed.error = null
                 layoutGender.error = null
                 when (it) {
-                    "name" -> {
+                    FieldError.NAME -> {
                         layoutName.error = getString(R.string.error_field_must_not_be_empty)
                     }
-                    "breed" -> {
+                    FieldError.BREED -> {
                         layoutBreed.error = getString(R.string.error_field_must_not_be_empty)
                     }
-                    "gender" -> {
+                    FieldError.GENDER -> {
                         layoutGender.error = getString(R.string.error_field_must_not_be_empty)
                     }
-                    "" -> {
-                        MaterialAlertDialogBuilder(requireContext())
+                    FieldError.NONE -> {
+                        alertDialog = MaterialAlertDialogBuilder(requireContext())
                             .setView(requireActivity().layoutInflater.inflate(R.layout.dialog_progress, null))
                             .setCancelable(false)
                             .show()
 
-//                        if (sharedPreferences.getBoolean(Keys.REGISTRATION_KEY, false)) {
-//                            sharedPreferences.edit {
-//                                putBoolean(Keys.REGISTRATION_KEY, true)
-//                            }
-//                        }
-//
-//                        Intent().apply {
-//                            setClass(requireActivity(), MainActivity::class.java)
-//                        }.also {
-//                            requireActivity().startActivity(it)
-//                        }
+                        if (sharedPreferences.getBoolean(Keys.REGISTRATION_KEY, false)) {
+                            sharedPreferences.edit {
+                                putBoolean(Keys.REGISTRATION_KEY, true)
+                            }
+                        }
+                    }
+                }
+            }
+
+            viewModel.downloadStatus.observe(viewLifecycleOwner) {
+                alertDialog?.hide()
+                when (it) {
+                    DownloadStatus.OK -> {
+                        MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog)
+                            .setCancelable(false)
+                            .setMessage(getString(R.string.download_successful))
+                            .setPositiveButton(getString(R.string.btn_ok)) {_, _ ->
+                                Intent().apply {
+                                    setClass(requireActivity(), MainActivity::class.java)
+                                }.also {
+                                    requireActivity().startActivity(it)
+                                }
+                            }
+                            .show()
+                    }
+                    DownloadStatus.ERROR -> {
+                        MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog)
+                            .setMessage(getString(R.string.internet_connection_error))
+                            .setPositiveButton(getString(R.string.btn_ok)) {_, _ -> }
+                            .show()
                     }
                 }
             }
