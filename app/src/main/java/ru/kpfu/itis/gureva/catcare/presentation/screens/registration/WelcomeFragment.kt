@@ -1,4 +1,4 @@
-package ru.kpfu.itis.gureva.catcare.presentation.ui.registration
+package ru.kpfu.itis.gureva.catcare.presentation.screens.registration
 
 import android.os.Bundle
 import android.view.View
@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import ru.kpfu.itis.gureva.catcare.R
 import ru.kpfu.itis.gureva.catcare.databinding.FragmentWelcomeBinding
-import ru.kpfu.itis.gureva.catcare.presentation.ui.profile.PetProfileEditingFragment
+import ru.kpfu.itis.gureva.catcare.presentation.screens.profile.PetProfileEditingFragment
 
 class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
     private var binding: FragmentWelcomeBinding? = null

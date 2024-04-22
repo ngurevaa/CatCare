@@ -1,4 +1,4 @@
-package ru.kpfu.itis.gureva.catcare.presentation.ui.helpful
+package ru.kpfu.itis.gureva.catcare.presentation.screens.helpful
 
 import android.content.Context
 import android.graphics.drawable.Drawable

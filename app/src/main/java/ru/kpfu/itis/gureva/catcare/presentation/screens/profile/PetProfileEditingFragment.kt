@@ -1,4 +1,4 @@
-package ru.kpfu.itis.gureva.catcare.presentation.ui.profile
+package ru.kpfu.itis.gureva.catcare.presentation.screens.profile
 
 import android.app.Activity
 import android.content.Context
@@ -6,12 +6,8 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.ArrayRes
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.edit
 import androidx.core.widget.doOnTextChanged
@@ -28,6 +24,7 @@ import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import dagger.Lazy
 import ru.kpfu.itis.gureva.catcare.R
 import ru.kpfu.itis.gureva.catcare.base.Keys
@@ -37,8 +34,8 @@ import ru.kpfu.itis.gureva.catcare.presentation.MainActivity
 import ru.kpfu.itis.gureva.catcare.utils.DownloadStatus
 import ru.kpfu.itis.gureva.catcare.utils.FieldError
 import ru.kpfu.itis.gureva.catcare.utils.Formatter
+import ru.kpfu.itis.gureva.catcare.utils.SavingStatus
 import java.text.SimpleDateFormat
-import java.util.Arrays
 import java.util.Date
 import javax.inject.Inject
 
@@ -127,7 +124,9 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
             }
 
             viewModel.image.observe(viewLifecycleOwner) {
-                it?.let { uploadImage(it) }
+                if (viewModel.downloadStatus.value != DownloadStatus.OK) {
+                    it?.let { uploadImage(it) }
+                }
             }
 
             viewModel.fieldError.observe(viewLifecycleOwner) {
@@ -144,36 +143,34 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
                     FieldError.GENDER -> {
                         layoutGender.error = getString(R.string.error_field_must_not_be_empty)
                     }
-                    FieldError.NONE -> {
-                        alertDialog = MaterialAlertDialogBuilder(requireContext())
-                            .setView(requireActivity().layoutInflater.inflate(R.layout.dialog_progress, null))
-                            .setCancelable(false)
-                            .show()
+                    FieldError.NONE -> {}
+                }
+            }
 
+            viewModel.savingStatus.observe(viewLifecycleOwner) {
+                when (it) {
+                    SavingStatus.OK -> {
+                        if (viewModel.downloadStatus.value != DownloadStatus.EXECUTION) {
+                            showDialogSavingProfile()
+                        }
                         if (!sharedPreferences.getBoolean(Keys.REGISTRATION_KEY, false)) {
                             sharedPreferences.edit {
                                 putBoolean(Keys.REGISTRATION_KEY, true)
                             }
                         }
                     }
+                    SavingStatus.ERROR -> {
+                        Snackbar.make(root, getString(R.string.profile_saving_failed), Snackbar.LENGTH_LONG).show()
+                    }
                 }
+
             }
 
             viewModel.downloadStatus.observe(viewLifecycleOwner) {
                 alertDialog?.hide()
                 when (it) {
                     DownloadStatus.OK -> {
-                        MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog)
-                            .setCancelable(false)
-                            .setTitle(getString(R.string.download_successful))
-                            .setPositiveButton(getString(R.string.btn_ok)) {_, _ ->
-                                Intent().apply {
-                                    setClass(requireActivity(), MainActivity::class.java)
-                                }.also {
-                                    requireActivity().startActivity(it)
-                                }
-                            }
-                            .show()
+                        showDialogSavingProfile()
                     }
                     DownloadStatus.ERROR -> {
                         MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog)
@@ -181,9 +178,30 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
                             .setPositiveButton(getString(R.string.btn_ok)) {_, _ -> }
                             .show()
                     }
+                    DownloadStatus.EXECUTION -> {
+                        alertDialog = MaterialAlertDialogBuilder(requireContext())
+                            .setView(requireActivity().layoutInflater.inflate(R.layout.dialog_progress, null))
+                            .setCancelable(false)
+                            .show()
+                    }
                 }
             }
         }
+    }
+
+    private fun showDialogSavingProfile() {
+        MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog)
+            .setCancelable(false)
+            .setTitle(getString(R.string.profile_saving_successful))
+            .setPositiveButton(getString(R.string.btn_ok)) {_, _ ->
+                Intent().apply {
+                    setClass(requireActivity(), MainActivity::class.java)
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }.also {
+                    requireActivity().startActivity(it)
+                }
+            }
+            .show()
     }
 
     private fun initTextChangeListeners() {

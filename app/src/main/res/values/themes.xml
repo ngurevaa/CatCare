@@ -9,6 +9,11 @@
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorSurfaceContainerHighest">@color/grey</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.App.MaterialAlertDialog</item>
+        <item name="snackbarTextViewStyle">@style/App.Widget.Material3.Snackbar.TextView</item>
+    </style>
+
+    <style name="App.Widget.Material3.Snackbar.TextView" parent="Widget.Material3.Snackbar.TextView">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
     </style>
 
     <style name="ThemeOverlay.App.MaterialAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">

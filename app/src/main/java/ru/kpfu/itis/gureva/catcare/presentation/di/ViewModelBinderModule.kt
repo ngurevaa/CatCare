@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import ru.kpfu.itis.gureva.catcare.presentation.ui.helpful.HelpfulViewModel
-import ru.kpfu.itis.gureva.catcare.presentation.ui.profile.PetProfileViewModel
+import ru.kpfu.itis.gureva.catcare.presentation.screens.helpful.HelpfulViewModel
+import ru.kpfu.itis.gureva.catcare.presentation.screens.profile.PetProfileViewModel
 
 @Module
 interface ViewModelBinderModule {

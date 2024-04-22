@@ -8,9 +8,9 @@ import ru.kpfu.itis.gureva.catcare.data.di.NetworkModule
 import ru.kpfu.itis.gureva.catcare.data.di.DataModule
 import ru.kpfu.itis.gureva.catcare.presentation.MainActivity
 import ru.kpfu.itis.gureva.catcare.presentation.di.ViewModelBinderModule
-import ru.kpfu.itis.gureva.catcare.presentation.ui.helpful.CatFactFragment
-import ru.kpfu.itis.gureva.catcare.presentation.ui.helpful.HelpfulFragment
-import ru.kpfu.itis.gureva.catcare.presentation.ui.profile.PetProfileEditingFragment
+import ru.kpfu.itis.gureva.catcare.presentation.screens.helpful.CatFactFragment
+import ru.kpfu.itis.gureva.catcare.presentation.screens.helpful.HelpfulFragment
+import ru.kpfu.itis.gureva.catcare.presentation.screens.profile.PetProfileEditingFragment
 import javax.inject.Singleton
 
 @Singleton

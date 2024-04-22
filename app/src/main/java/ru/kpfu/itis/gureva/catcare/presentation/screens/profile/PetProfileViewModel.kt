@@ -1,7 +1,6 @@
-package ru.kpfu.itis.gureva.catcare.presentation.ui.profile
+package ru.kpfu.itis.gureva.catcare.presentation.screens.profile
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,6 +13,7 @@ import ru.kpfu.itis.gureva.catcare.data.database.repository.PetRepository
 import ru.kpfu.itis.gureva.catcare.utils.DownloadStatus
 import ru.kpfu.itis.gureva.catcare.utils.FieldError
 import ru.kpfu.itis.gureva.catcare.utils.Formatter
+import ru.kpfu.itis.gureva.catcare.utils.SavingStatus
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.UUID
@@ -52,6 +52,10 @@ class PetProfileViewModel @Inject constructor(
     private val _downloadStatus = MutableLiveData<DownloadStatus>()
     val downloadStatus: LiveData<DownloadStatus>
         get() = _downloadStatus
+
+    private val _savingStatus = MutableLiveData<SavingStatus>()
+    val savingStatus: LiveData<SavingStatus>
+        get() = _savingStatus
 
     private val storageRef = Firebase.storage.reference
 
@@ -100,7 +104,12 @@ class PetProfileViewModel @Inject constructor(
                 breed.value ?: "", gender.value ?: "", image.value)
 
             viewModelScope.launch {
-                petRepository.save(newPet)
+                try {
+                    petRepository.save(newPet)
+                    _savingStatus.value = SavingStatus.OK
+                } catch (ex: Exception) {
+                    _savingStatus.value = SavingStatus.ERROR
+                }
             }
         }
     }
@@ -126,22 +135,20 @@ class PetProfileViewModel @Inject constructor(
 
     private fun savePhoto() {
         if (image.value != pet?.image && image.value != null) {
+            _downloadStatus.value = DownloadStatus.EXECUTION
             val fileName = UUID.randomUUID()
             val uploadTask = storageRef.child("$fileName").putFile(Uri.parse(image.value))
 
             uploadTask.addOnSuccessListener {
                 storageRef.child("$fileName").downloadUrl.addOnSuccessListener {
-                    _image.value = it.toString()
                     _downloadStatus.value = DownloadStatus.OK
+                    _image.value = it.toString()
                 }.addOnFailureListener {
                     _downloadStatus.value = DownloadStatus.ERROR
                 }
             }.addOnFailureListener {
                 _downloadStatus.value = DownloadStatus.ERROR
             }
-        }
-        else {
-            _downloadStatus.value = DownloadStatus.OK
         }
     }
 }

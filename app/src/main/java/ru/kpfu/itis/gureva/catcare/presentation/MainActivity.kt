@@ -10,11 +10,10 @@ import ru.kpfu.itis.gureva.catcare.R
 import ru.kpfu.itis.gureva.catcare.base.Keys
 import ru.kpfu.itis.gureva.catcare.databinding.ActivityMainBinding
 import ru.kpfu.itis.gureva.catcare.di.appComponent
-import ru.kpfu.itis.gureva.catcare.presentation.ui.diary.DiaryFragment
-import ru.kpfu.itis.gureva.catcare.presentation.ui.helpful.HelpfulFragment
-import ru.kpfu.itis.gureva.catcare.presentation.ui.pets.MyPetsFragment
-import ru.kpfu.itis.gureva.catcare.presentation.ui.profile.PetProfileEditingFragment
-import ru.kpfu.itis.gureva.catcare.presentation.ui.registration.WelcomeViewPagerFragment
+import ru.kpfu.itis.gureva.catcare.presentation.screens.diary.DiaryFragment
+import ru.kpfu.itis.gureva.catcare.presentation.screens.helpful.HelpfulFragment
+import ru.kpfu.itis.gureva.catcare.presentation.screens.pets.MyPetsFragment
+import ru.kpfu.itis.gureva.catcare.presentation.screens.registration.WelcomeViewPagerFragment
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {

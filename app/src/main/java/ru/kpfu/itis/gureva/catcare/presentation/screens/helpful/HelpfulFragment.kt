@@ -1,8 +1,6 @@
-package ru.kpfu.itis.gureva.catcare.presentation.ui.helpful
+package ru.kpfu.itis.gureva.catcare.presentation.screens.helpful
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import ru.kpfu.itis.gureva.catcare.R

@@ -1,4 +1,4 @@
-package ru.kpfu.itis.gureva.catcare.presentation.ui.registration
+package ru.kpfu.itis.gureva.catcare.presentation.screens.registration
 
 import android.os.Bundle
 import android.view.View
