@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/btn_fact"
                 android:textSize="24sp"
-                android:fontFamily="@font/montserrat_semibold"
+                android:fontFamily="@font/montserrat_semi_bold"
                 android:layout_marginStart="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

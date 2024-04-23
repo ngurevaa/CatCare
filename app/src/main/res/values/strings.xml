@@ -21,4 +21,9 @@
     <string name="btn_ok">ОК</string>
     <string name="profile_saving_successful">Профиль успешно изменен</string>
     <string name="profile_saving_failed">Произошла ошибка. Попробуйте позднее.</string>
+    <string name="flea_treatment">Обработка от блох</string>
+    <string name="unusual_behaviour">Необычное поведение</string>
+    <string name="vaccination">Вакцинация</string>
+    <string name="medicine">Прием лекарств</string>
+    <string name="trip_to_vet">Поход к ветеринару</string>
 </resources>
