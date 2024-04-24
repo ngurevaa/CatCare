@@ -48,6 +48,8 @@ android {
 }
 
 dependencies {
+    implementation("joda-time:joda-time:2.12.1")
+
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
     implementation("com.google.firebase:firebase-storage:20.3.0")
 

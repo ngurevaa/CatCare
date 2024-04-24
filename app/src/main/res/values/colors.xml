@@ -8,10 +8,11 @@
     <color name="moderate_orange">#E8793E</color>
     <color name="brown">#332D2D</color>
     <color name="soft_brown">#3F3939</color>
-    <color name="grey">#FAFAFA</color>
+    <color name="gray">#FAFAFA</color>
     <color name="beige">#F5EDE3</color>
     <color name="milk">#FCF9F6</color>
     <color name="brown_milk">#E9D3BD</color>
     <color name="b">#817567</color>
     <color name="dark_gray">#808080</color>
+    <color name="card">#FBF8F4</color>
 </resources>

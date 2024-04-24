@@ -7,4 +7,36 @@
     tools:context=".presentation.screens.pets.MyPetsFragment"
     android:background="@color/beige">
 
+    <TextView
+        android:id="@+id/tv_my_pets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/my_pets"
+        android:fontFamily="@font/montserrat_semi_bold"
+        android:textSize="24sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"/>
+    
+    <ImageView
+        android:id="@+id/iv_gray_cat"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/gray_cat"
+        app:layout_constraintStart_toEndOf="@id/tv_my_pets"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="4dp"
+        android:scaleType="centerCrop"
+        android:layout_marginTop="8dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_cats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_my_pets"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        tools:listitem="@layout/item_cat"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

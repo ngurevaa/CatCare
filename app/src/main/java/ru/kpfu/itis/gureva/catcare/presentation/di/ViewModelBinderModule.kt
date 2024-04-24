@@ -6,6 +6,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import ru.kpfu.itis.gureva.catcare.presentation.screens.helpful.HelpfulViewModel
+import ru.kpfu.itis.gureva.catcare.presentation.screens.pets.MyPetsViewModel
+import ru.kpfu.itis.gureva.catcare.presentation.screens.profile.PetProfileEditingViewModel
 import ru.kpfu.itis.gureva.catcare.presentation.screens.profile.PetProfileViewModel
 
 @Module
@@ -15,11 +17,11 @@ interface ViewModelBinderModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(PetProfileViewModel::class)
-    fun bindPetProfileViewModel(viewModel: PetProfileViewModel): ViewModel
+    @ViewModelKey(HelpfulViewModel::class)
+    fun bindHelpfulViewModel(viewModel: HelpfulViewModel): ViewModel
 
     @Binds
     @IntoMap
-    @ViewModelKey(HelpfulViewModel::class)
-    fun bindHelpfulViewModel(viewModel: HelpfulViewModel): ViewModel
+    @ViewModelKey(MyPetsViewModel::class)
+    fun bindMyPetsViewModel(viewModel: MyPetsViewModel): ViewModel
 }
