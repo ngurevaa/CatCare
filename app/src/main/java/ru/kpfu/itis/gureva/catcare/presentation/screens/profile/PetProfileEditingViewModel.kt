@@ -1,11 +1,16 @@
 package ru.kpfu.itis.gureva.catcare.presentation.screens.profile
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.tasks.Continuation
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
+import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.storage
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -20,11 +25,11 @@ import ru.kpfu.itis.gureva.catcare.utils.SavingStatus
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.UUID
-import javax.inject.Inject
+
 
 class PetProfileEditingViewModel @AssistedInject constructor(
     private val petRepository: PetRepository,
-    @Assisted("PET_ID") private val petId: Int?
+    @Assisted("PET_ID") private var petId: Int?
 ) : ViewModel() {
 
     private val _name = MutableLiveData<String>()
@@ -65,6 +70,7 @@ class PetProfileEditingViewModel @AssistedInject constructor(
 
     init {
         viewModelScope.launch {
+            Log.e("Id", petId.toString())
             pet = petId?.let { petRepository.getById(it) }
 
             val value = pet
@@ -103,14 +109,13 @@ class PetProfileEditingViewModel @AssistedInject constructor(
 
     fun savePet() {
         if (checkFieldValidation()) {
-            savePhoto()
             val newPet = PetEntity(pet?.id, name.value ?: "", birthDay.value ?: "",
                 breed.value ?: "", gender.value ?: "", image.value)
 
             viewModelScope.launch {
                 try {
-                    petRepository.save(newPet)
-                    _savingStatus.value = SavingStatus.OK
+                    petId = petRepository.save(newPet).toInt()
+                    savePhoto(image.value != pet?.image)
                 } catch (ex: Exception) {
                     _savingStatus.value = SavingStatus.ERROR
                 }
@@ -137,22 +142,37 @@ class PetProfileEditingViewModel @AssistedInject constructor(
         return true
     }
 
-    private fun savePhoto() {
-        if (image.value != pet?.image && image.value != null) {
+    private fun savePhoto(flag: Boolean) {
+        if (flag && image.value != null) {
             _downloadStatus.value = DownloadStatus.EXECUTION
-            val fileName = UUID.randomUUID()
-            val uploadTask = storageRef.child("$fileName").putFile(Uri.parse(image.value))
 
-            uploadTask.addOnSuccessListener {
-                storageRef.child("$fileName").downloadUrl.addOnSuccessListener {
-                    _downloadStatus.value = DownloadStatus.OK
-                    _image.value = it.toString()
-                }.addOnFailureListener {
+            val ref = storageRef.child("${UUID.randomUUID()}")
+            val uploadTask = ref.putFile(Uri.parse(image.value))
+
+            uploadTask.continueWithTask { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let {
+                        _downloadStatus.value = DownloadStatus.ERROR
+                    }
+                }
+                ref.downloadUrl
+            }.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val downloadUri = task.result
+
+                    viewModelScope.launch {
+                        Log.e("Id", petId.toString())
+                        petRepository.update(petId ?: 1, downloadUri.toString())
+                        _downloadStatus.value = DownloadStatus.OK
+                        _savingStatus.value = SavingStatus.OK
+                    }
+                } else {
                     _downloadStatus.value = DownloadStatus.ERROR
                 }
-            }.addOnFailureListener {
-                _downloadStatus.value = DownloadStatus.ERROR
             }
+        }
+        else {
+            _savingStatus.value = SavingStatus.OK
         }
     }
 

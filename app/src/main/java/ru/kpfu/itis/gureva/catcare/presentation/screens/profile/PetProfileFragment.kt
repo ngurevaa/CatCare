@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import ru.kpfu.itis.gureva.catcare.R
 import ru.kpfu.itis.gureva.catcare.databinding.FragmentPetBinding
 import ru.kpfu.itis.gureva.catcare.di.appComponent
@@ -59,6 +60,7 @@ class PetProfileFragment : Fragment(R.layout.fragment_pet) {
 
                     Glide.with(requireContext())
                         .load(pet.image)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .into(ivCat)
                 }
             }

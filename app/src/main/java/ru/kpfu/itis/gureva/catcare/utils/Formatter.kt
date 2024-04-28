@@ -24,11 +24,13 @@ object Formatter {
     }
 
     private fun getYear(count: Int): String {
-        return when (count % 10) {
-            1 -> "год"
-            2, 3, 4 -> "года"
-            else -> "лет"
+        if (count % 10 == 1 && count != 11) {
+            return "год"
         }
+        else if ((count % 10 in 2..4) && (count < 10 || count > 20)) {
+            return "года"
+        }
+        return "лет"
     }
 
     fun findDifferenceBetweenDays(date: String?): String {

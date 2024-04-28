@@ -1,7 +1,9 @@
 package ru.kpfu.itis.gureva.catcare.presentation.holder
 
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.RequestManager
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import ru.kpfu.itis.gureva.catcare.data.database.entity.PetEntity
 import ru.kpfu.itis.gureva.catcare.databinding.ItemCatBinding
 
@@ -24,7 +26,10 @@ class CatViewHolder(
         binding.run {
             tvName.text = pet.name
             tvBreed.text = pet.breed
-            glide.load(pet.image).into(ivCat)
+            glide
+                .load(pet.image)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(ivCat)
         }
     }
 }

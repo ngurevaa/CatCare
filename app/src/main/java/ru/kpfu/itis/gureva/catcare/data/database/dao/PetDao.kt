@@ -20,6 +20,6 @@ interface PetDao {
     @Query("SELECT * FROM pet")
     fun getAll(): List<PetEntity>?
 
-    @Update
-    fun update(pet: PetEntity)
+    @Query("UPDATE pet SET image = :image WHERE pet.id = :id")
+    fun update(id: Int, image: String)
 }

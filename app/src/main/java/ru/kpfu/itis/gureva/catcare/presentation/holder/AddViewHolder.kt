@@ -14,4 +14,8 @@ class AddViewHolder(
             onAddClicked()
         }
     }
+
+    fun onBind() {
+
+    }
 }

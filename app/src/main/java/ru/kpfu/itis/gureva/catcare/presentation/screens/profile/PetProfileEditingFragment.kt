@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -153,9 +154,8 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
             viewModel.savingStatus.observe(viewLifecycleOwner) {
                 when (it) {
                     SavingStatus.OK -> {
-                        if (viewModel.downloadStatus.value != DownloadStatus.EXECUTION) {
-                            showDialogSavingProfile()
-                        }
+                        showDialogSavingProfile()
+
                         if (!sharedPreferences.getBoolean(Keys.REGISTRATION_KEY, false)) {
                             sharedPreferences.edit {
                                 putBoolean(Keys.REGISTRATION_KEY, true)
@@ -170,10 +170,9 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
             }
 
             viewModel.downloadStatus.observe(viewLifecycleOwner) {
-                alertDialog?.hide()
+                alertDialog?.dismiss()
                 when (it) {
                     DownloadStatus.OK -> {
-                        showDialogSavingProfile()
                     }
                     DownloadStatus.ERROR -> {
                         MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog)

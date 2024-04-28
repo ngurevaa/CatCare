@@ -1,5 +1,6 @@
 package ru.kpfu.itis.gureva.catcare.presentation.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -57,7 +58,7 @@ class MyPetsRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder.itemViewType) {
-            1 -> (holder as AddViewHolder)
+            1 -> (holder as AddViewHolder).onBind()
             2 -> (holder as CatViewHolder).onBind(list[position])
         }
     }
