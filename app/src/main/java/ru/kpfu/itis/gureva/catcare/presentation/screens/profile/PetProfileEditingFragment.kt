@@ -33,6 +33,7 @@ import ru.kpfu.itis.gureva.catcare.base.Keys
 import ru.kpfu.itis.gureva.catcare.databinding.FragmentPetProfileEditingBinding
 import ru.kpfu.itis.gureva.catcare.di.appComponent
 import ru.kpfu.itis.gureva.catcare.presentation.MainActivity
+import ru.kpfu.itis.gureva.catcare.utils.DatePicker
 import ru.kpfu.itis.gureva.catcare.utils.DownloadStatus
 import ru.kpfu.itis.gureva.catcare.utils.FieldError
 import ru.kpfu.itis.gureva.catcare.utils.Formatter
@@ -83,8 +84,15 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
             }
 
             etBirthDay.setOnClickListener {
-                val datePicker = getDatePicker(
-                    viewModel.birthDay.value ?: SimpleDateFormat(Formatter.DATE_WITHOUT_TIME).format(Date()))
+                val datePicker = if (viewModel.birthDay.value == null) {
+                    DatePicker.getDatePicker(Date())
+                } else {
+                    DatePicker.getDatePicker(
+                        Date(SimpleDateFormat(Formatter.DATE_WITHOUT_TIME).parse(viewModel.birthDay.value).time
+                                + DatePicker.MILLISECONDS_PER_DAY)
+                    )
+                }
+
                 datePicker.addOnPositiveButtonClickListener {
                     viewModel.setBirthDay(SimpleDateFormat(Formatter.DATE_WITHOUT_TIME).format(Date(it)))
                 }
@@ -233,7 +241,10 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
         return MaterialDatePicker.Builder.datePicker()
             .setSelection(SimpleDateFormat(Formatter.DATE_WITHOUT_TIME).parse(date).time)
             .setCalendarConstraints(
-                CalendarConstraints.Builder().setValidator(dateValidator).setValidator(validator).build()
+                CalendarConstraints.Builder().setValidator(validator).build()
+            )
+            .setCalendarConstraints(
+                CalendarConstraints.Builder().setValidator(dateValidator).build()
             )
             .build()
     }

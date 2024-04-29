@@ -214,7 +214,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/montserrat_semi_bold"
-                    android:text="Контроль веса"
+                    android:text="@string/weight_control"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toStartOf="@+id/iv_weight"
                     app:layout_constraintStart_toStartOf="parent"

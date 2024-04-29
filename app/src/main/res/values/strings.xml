@@ -27,6 +27,12 @@
     <string name="vaccination">Вакцинация</string>
     <string name="medicine">Прием лекарств</string>
     <string name="trip_to_vet">Поход к ветеринару</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="weight_control">Контроль веса</string>
+    <string name="weight">Вес:</string>
+    <string name="date">Дата:</string>
+    <string name="kilogram">кг</string>
+    <string name="choose_date">Выберите дату</string>
+    <string name="add">Добавить</string>
+    <string name="weight_must_be_less_then">Вес не должен превышать %s килограмм</string>
+    <string name="weight_must_be_more_then" formatted="true">Вес должен быть больше %s килограмм</string>
 </resources>

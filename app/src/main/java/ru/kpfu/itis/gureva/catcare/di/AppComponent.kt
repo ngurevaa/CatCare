@@ -15,6 +15,8 @@ import ru.kpfu.itis.gureva.catcare.presentation.screens.profile.PetProfileEditin
 import ru.kpfu.itis.gureva.catcare.presentation.screens.profile.PetProfileEditingViewModel
 import ru.kpfu.itis.gureva.catcare.presentation.screens.profile.PetProfileFragment
 import ru.kpfu.itis.gureva.catcare.presentation.screens.profile.PetProfileViewModel
+import ru.kpfu.itis.gureva.catcare.presentation.screens.weight.WeightAddingViewModel
+import ru.kpfu.itis.gureva.catcare.presentation.screens.weight.WeightControlViewModel
 import javax.inject.Singleton
 
 @Singleton
@@ -36,6 +38,8 @@ interface AppComponent {
 
     fun getPetProfileViewModel(): PetProfileViewModel.Factory
     fun getPetProfileEditingViewModel(): PetProfileEditingViewModel.Factory
+    fun getWeightControlViewModel(): WeightControlViewModel.Factory
+    fun getWeightAddingViewModel(): WeightAddingViewModel.Factory
 
     fun inject(activity: MainActivity)
     fun inject(fragment: HelpfulFragment)

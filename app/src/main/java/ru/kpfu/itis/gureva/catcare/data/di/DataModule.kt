@@ -22,4 +22,7 @@ class DataModule {
 
     @Provides
     fun providePetDao(database: AppDatabase) = database.petDao
+
+    @Provides
+    fun provideWeightDao(database: AppDatabase) = database.weightDao
 }

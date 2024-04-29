@@ -161,7 +161,6 @@ class PetProfileEditingViewModel @AssistedInject constructor(
                     val downloadUri = task.result
 
                     viewModelScope.launch {
-                        Log.e("Id", petId.toString())
                         petRepository.update(petId ?: 1, downloadUri.toString())
                         _downloadStatus.value = DownloadStatus.OK
                         _savingStatus.value = SavingStatus.OK

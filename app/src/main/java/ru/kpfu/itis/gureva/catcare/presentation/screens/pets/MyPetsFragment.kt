@@ -54,7 +54,6 @@ class MyPetsFragment : Fragment(R.layout.fragment_my_pets) {
         with(viewModel) {
             pets.observe(viewLifecycleOwner) {
                 adapter?.updateList(it)
-                adapter?.notifyDataSetChanged()
             }
         }
     }
