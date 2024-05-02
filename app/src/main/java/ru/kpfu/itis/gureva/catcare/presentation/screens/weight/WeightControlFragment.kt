@@ -3,16 +3,16 @@ package ru.kpfu.itis.gureva.catcare.presentation.screens.weight
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import ru.kpfu.itis.gureva.catcare.R
 import ru.kpfu.itis.gureva.catcare.databinding.FragmentWeightControlBinding
 import ru.kpfu.itis.gureva.catcare.di.appComponent
 import ru.kpfu.itis.gureva.catcare.presentation.adapter.WeightControlRecyclerViewAdapter
-import ru.kpfu.itis.gureva.catcare.presentation.screens.profile.PetProfileViewModel
+import ru.kpfu.itis.gureva.catcare.presentation.screens.weight.adding.WeightAddingBottomSheetFragment
+import ru.kpfu.itis.gureva.catcare.utils.Formatter
 import ru.kpfu.itis.gureva.catcare.utils.SimpleVerticalDecorator
 import ru.kpfu.itis.gureva.catcare.utils.lazyViewModel
 import ru.kpfu.itis.gureva.catcare.utils.observe
+import java.text.SimpleDateFormat
 
 class WeightControlFragment : Fragment(R.layout.fragment_weight_control) {
     private var binding: FragmentWeightControlBinding? = null
@@ -40,7 +40,11 @@ class WeightControlFragment : Fragment(R.layout.fragment_weight_control) {
         }
 
         viewModel.weights.observe(this@WeightControlFragment) {
-            adapter.updateList(it)
+            val dateFormat = SimpleDateFormat(Formatter.DATE_WITHOUT_TIME)
+            val list = it.sortedByDescending { item ->
+                dateFormat.parse(item.date)?.time
+            }
+            adapter.updateList(list)
         }
     }
 

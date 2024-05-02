@@ -8,7 +8,7 @@ import ru.kpfu.itis.gureva.catcare.data.database.entity.WeightEntity
 
 @Dao
 interface WeightDao {
-    @Query("SELECT * FROM weight WHERE petId = :id ORDER BY date DESC")
+    @Query("SELECT * FROM weight WHERE petId = :id")
     fun getAllByPetId(id: Int): Flow<List<WeightEntity>>
 
     @Insert

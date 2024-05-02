@@ -13,9 +13,11 @@ import ru.kpfu.itis.gureva.catcare.presentation.screens.helpful.HelpfulFragment
 import ru.kpfu.itis.gureva.catcare.presentation.screens.pets.MyPetsFragment
 import ru.kpfu.itis.gureva.catcare.presentation.screens.profile.PetProfileEditingFragment
 import ru.kpfu.itis.gureva.catcare.presentation.screens.profile.PetProfileEditingViewModel
-import ru.kpfu.itis.gureva.catcare.presentation.screens.profile.PetProfileFragment
 import ru.kpfu.itis.gureva.catcare.presentation.screens.profile.PetProfileViewModel
-import ru.kpfu.itis.gureva.catcare.presentation.screens.weight.WeightAddingViewModel
+import ru.kpfu.itis.gureva.catcare.presentation.screens.unusual.UnusualBehaviourFragment
+import ru.kpfu.itis.gureva.catcare.presentation.screens.unusual.UnusualBehaviourViewModel
+import ru.kpfu.itis.gureva.catcare.presentation.screens.unusual.adding.BehaviourAddingViewModel
+import ru.kpfu.itis.gureva.catcare.presentation.screens.weight.adding.WeightAddingViewModel
 import ru.kpfu.itis.gureva.catcare.presentation.screens.weight.WeightControlViewModel
 import javax.inject.Singleton
 
@@ -40,11 +42,14 @@ interface AppComponent {
     fun getPetProfileEditingViewModel(): PetProfileEditingViewModel.Factory
     fun getWeightControlViewModel(): WeightControlViewModel.Factory
     fun getWeightAddingViewModel(): WeightAddingViewModel.Factory
+    fun getUnusualBehaviourViewModel(): UnusualBehaviourViewModel.Factory
+    fun getBehaviourAddingViewModel(): BehaviourAddingViewModel.Factory
 
     fun inject(activity: MainActivity)
     fun inject(fragment: HelpfulFragment)
     fun inject(fragment: CatFactFragment)
     fun inject(fragment: PetProfileEditingFragment)
     fun inject(fragment: MyPetsFragment)
+    fun inject(fragment: UnusualBehaviourFragment)
 }
 
