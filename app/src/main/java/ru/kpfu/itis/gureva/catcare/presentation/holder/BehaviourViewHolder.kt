@@ -25,6 +25,7 @@ class BehaviourViewHolder(
                     tvDate.visibility = View.GONE
                     tvTitleDescription.visibility = View.GONE
                     tvDescription.visibility = View.GONE
+                    open = false
                 }
                 else {
                     glide.load(R.drawable.up).into(ivOpen)

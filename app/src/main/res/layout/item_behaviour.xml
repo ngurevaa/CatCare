@@ -13,7 +13,6 @@
 
         <ImageView
             android:id="@+id/iv_behaviour"
-            android:src="@drawable/cat_tender2"
             android:layout_width="80dp"
             android:layout_height="80dp"
             app:layout_constraintTop_toTopOf="parent"
@@ -25,7 +24,6 @@
 
         <TextView
             android:id="@+id/tv_behaviour"
-            android:text="Ласковый"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_medium"

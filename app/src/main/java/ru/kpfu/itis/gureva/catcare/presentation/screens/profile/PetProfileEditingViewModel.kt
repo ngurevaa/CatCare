@@ -26,31 +26,21 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.UUID
 
+data class PetState(
+    val name: String = "",
+    val breed: String = "",
+    val gender: String = "",
+    val birthDay: String = "",
+    val image: String? = null
+)
 
 class PetProfileEditingViewModel @AssistedInject constructor(
     private val petRepository: PetRepository,
     @Assisted("PET_ID") private var petId: Int?
 ) : ViewModel() {
-
-    private val _name = MutableLiveData<String>()
-    val name: LiveData<String>
-        get() = _name
-
-    private val _breed = MutableLiveData<String>()
-    val breed: LiveData<String>
-        get() = _breed
-
-    private val _gender = MutableLiveData<String>()
-    val gender: LiveData<String>
-        get() = _gender
-
-    private val _birthDay = MutableLiveData<String>()
-    val birthDay: LiveData<String>
-        get() = _birthDay
-
-    private val _image = MutableLiveData<String?>()
-    val image: LiveData<String?>
-        get() = _image
+    private val _petState = MutableLiveData<PetState>()
+    val petState: LiveData<PetState>
+        get() = _petState
 
     private var pet: PetEntity? =null
 
@@ -70,8 +60,8 @@ class PetProfileEditingViewModel @AssistedInject constructor(
 
     init {
         viewModelScope.launch {
-            Log.e("Id", petId.toString())
             pet = petId?.let { petRepository.getById(it) }
+            _petState.value = PetState()
 
             val value = pet
             if (value != null) {
@@ -88,34 +78,34 @@ class PetProfileEditingViewModel @AssistedInject constructor(
     }
 
     fun setName(name: String) {
-        _name.value = name
+        _petState.value = _petState.value?.copy(name = name)
     }
 
     fun setBreed(breed: String) {
-        _breed.value = breed
+        _petState.value = _petState.value?.copy(breed = breed)
     }
 
     fun setGender(gender: String) {
-        _gender.value = gender
+        _petState.value = _petState.value?.copy(gender = gender)
     }
 
     fun setBirthDay(birthDay: String) {
-        _birthDay.value = birthDay
+        _petState.value = _petState.value?.copy(birthDay = birthDay)
     }
 
     fun setImage(image: String?) {
-        _image.value = image
+        _petState.value = _petState.value?.copy(image = image)
     }
 
     fun savePet() {
         if (checkFieldValidation()) {
-            val newPet = PetEntity(pet?.id, name.value ?: "", birthDay.value ?: "",
-                breed.value ?: "", gender.value ?: "", image.value)
+            val newPet = PetEntity(pet?.id, _petState.value?.name ?: "", _petState.value?.birthDay ?: "",
+                _petState.value?.breed ?: "", _petState.value?.gender ?: "", _petState.value?.image)
 
             viewModelScope.launch {
                 try {
                     petId = petRepository.save(newPet).toInt()
-                    savePhoto(image.value != pet?.image)
+                    savePhoto(_petState.value?.image != pet?.image)
                 } catch (ex: Exception) {
                     _savingStatus.value = SavingStatus.ERROR
                 }
@@ -124,15 +114,15 @@ class PetProfileEditingViewModel @AssistedInject constructor(
     }
 
     private fun checkFieldValidation(): Boolean {
-        if (name.value.isNullOrBlank()) {
+        if (_petState.value?.name.isNullOrBlank()) {
             _fieldError.value = FieldError.NAME
             return false
         }
-        else if (breed.value.isNullOrBlank()) {
+        else if (_petState.value?.breed.isNullOrBlank()) {
             _fieldError.value = FieldError.BREED
             return false
         }
-        else if (gender.value.isNullOrBlank()) {
+        else if (_petState.value?.gender.isNullOrBlank()) {
             _fieldError.value = FieldError.GENDER
             return false
         }
@@ -143,11 +133,11 @@ class PetProfileEditingViewModel @AssistedInject constructor(
     }
 
     private fun savePhoto(flag: Boolean) {
-        if (flag && image.value != null) {
+        if (flag && _petState.value?.image != null) {
             _downloadStatus.value = DownloadStatus.EXECUTION
 
             val ref = storageRef.child("${UUID.randomUUID()}")
-            val uploadTask = ref.putFile(Uri.parse(image.value))
+            val uploadTask = ref.putFile(Uri.parse(_petState.value?.image))
 
             uploadTask.continueWithTask { task ->
                 if (!task.isSuccessful) {
