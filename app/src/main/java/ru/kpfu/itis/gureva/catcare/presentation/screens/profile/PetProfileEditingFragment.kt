@@ -84,11 +84,11 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
             }
 
             etBirthDay.setOnClickListener {
-                val datePicker = if (viewModel.birthDay.value == null) {
+                val datePicker = if (viewModel.petState.value?.birthDay == null) {
                     DatePicker.getDatePicker(Date())
                 } else {
                     DatePicker.getDatePicker(
-                        Date(SimpleDateFormat(Formatter.DATE_WITHOUT_TIME).parse(viewModel.birthDay.value).time
+                        Date(SimpleDateFormat(Formatter.DATE_WITHOUT_TIME).parse(viewModel.petState.value?.birthDay).time
                                 + DatePicker.MILLISECONDS_PER_DAY)
                     )
                 }
@@ -111,33 +111,25 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
 
     private fun observeEditTexts() {
         binding?.run {
-            viewModel.name.observe(viewLifecycleOwner) {
-                if (etName.text.toString() != it) {
-                    etName.setText(it)
+            viewModel.petState.observe(viewLifecycleOwner) {
+                if (etName.text.toString() != it.name) {
+                    etName.setText(it.name)
                 }
-            }
 
-            viewModel.breed.observe(viewLifecycleOwner) {
-                if (etBreed.text.toString() != it) {
-                    etBreed.setText(it)
+                if (etBreed.text.toString() != it.breed) {
+                    etBreed.setText(it.breed)
                 }
-            }
 
-            viewModel.gender.observe(viewLifecycleOwner) {
-                if (etGender.text.toString() != it) {
-                    etGender.setText(it, false)
+                if (etGender.text.toString() != it.gender) {
+                    etGender.setText(it.gender, false)
                 }
-            }
 
-            viewModel.birthDay.observe(viewLifecycleOwner) {
-                if (etBirthDay.text.toString() != it) {
-                    etBirthDay.setText(it)
+                if (etBirthDay.text.toString() != it.birthDay) {
+                    etBirthDay.setText(it.birthDay)
                 }
-            }
 
-            viewModel.image.observe(viewLifecycleOwner) {
                 if (viewModel.downloadStatus.value != DownloadStatus.OK) {
-                    it?.let { uploadImage(it) }
+                    it?.let { uploadImage(it.image.toString()) }
                 }
             }
 

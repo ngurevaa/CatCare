@@ -35,4 +35,13 @@
     <string name="add">Добавить</string>
     <string name="weight_must_be_less_then">Вес не должен превышать %s килограмм</string>
     <string name="weight_must_be_more_then" formatted="true">Вес должен быть больше %s килограмм</string>
+    <string name="description">Описание:</string>
+    <string name="choose_behaviour">Выберите настроение питомца</string>
+    <string name="tender">Ласковый</string>
+    <string name="sleepy">Сонный</string>
+    <string name="angry">Злой</string>
+    <string name="sad">Грустный</string>
+    <string name="active">Активный</string>
+    <string name="fearful">Пугливый</string>
+    <string name="perhaps_you_remember_something_special">Возможно запомнилось что-то особенное?</string>
 </resources>

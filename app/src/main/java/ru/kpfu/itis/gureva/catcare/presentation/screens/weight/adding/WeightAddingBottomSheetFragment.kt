@@ -1,15 +1,9 @@
-package ru.kpfu.itis.gureva.catcare.presentation.screens.weight
+package ru.kpfu.itis.gureva.catcare.presentation.screens.weight.adding
 
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import android.view.View
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.datepicker.CalendarConstraints
-import com.google.android.material.datepicker.CompositeDateValidator
-import com.google.android.material.datepicker.DateValidatorPointBackward
-import com.google.android.material.datepicker.DateValidatorPointForward
-import com.google.android.material.datepicker.MaterialDatePicker
 import ru.kpfu.itis.gureva.catcare.R
 import ru.kpfu.itis.gureva.catcare.databinding.FragmentWeightAddingBottomSheetBinding
 import ru.kpfu.itis.gureva.catcare.di.appComponent

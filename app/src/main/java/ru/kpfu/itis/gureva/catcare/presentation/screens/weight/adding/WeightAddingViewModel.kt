@@ -1,4 +1,4 @@
-package ru.kpfu.itis.gureva.catcare.presentation.screens.weight
+package ru.kpfu.itis.gureva.catcare.presentation.screens.weight.adding
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

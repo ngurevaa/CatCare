@@ -25,4 +25,7 @@ class DataModule {
 
     @Provides
     fun provideWeightDao(database: AppDatabase) = database.weightDao
+
+    @Provides
+    fun provideBehaviourDao(database: AppDatabase) = database.behaviourDao
 }

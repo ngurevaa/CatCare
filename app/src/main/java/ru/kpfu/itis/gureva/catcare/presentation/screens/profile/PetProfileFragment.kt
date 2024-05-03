@@ -8,6 +8,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import ru.kpfu.itis.gureva.catcare.R
 import ru.kpfu.itis.gureva.catcare.databinding.FragmentPetBinding
 import ru.kpfu.itis.gureva.catcare.di.appComponent
+import ru.kpfu.itis.gureva.catcare.presentation.screens.unusual.UnusualBehaviourFragment
 import ru.kpfu.itis.gureva.catcare.presentation.screens.weight.WeightControlFragment
 import ru.kpfu.itis.gureva.catcare.utils.lazyViewModel
 import java.util.Date
@@ -53,6 +54,13 @@ class PetProfileFragment : Fragment(R.layout.fragment_pet) {
             cvWeight.setOnClickListener {
                 parentFragmentManager.beginTransaction()
                     .replace(fragmentContainerId, WeightControlFragment.newInstance(petId ?: 1))
+                    .addToBackStack(null)
+                    .commit()
+            }
+
+            cvBehaviour.setOnClickListener {
+                parentFragmentManager.beginTransaction()
+                    .replace(fragmentContainerId, UnusualBehaviourFragment.newInstance(petId ?: 1))
                     .addToBackStack(null)
                     .commit()
             }
