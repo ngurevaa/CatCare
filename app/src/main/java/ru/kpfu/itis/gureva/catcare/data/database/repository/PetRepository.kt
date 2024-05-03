@@ -18,8 +18,8 @@ class PetRepository @Inject constructor(
         }
     }
 
-    suspend fun save(pet: PetEntity) {
-        withContext(Dispatchers.IO) {
+    suspend fun save(pet: PetEntity): Long {
+        return withContext(Dispatchers.IO) {
             petDao.save(pet)
         }
     }
@@ -27,6 +27,12 @@ class PetRepository @Inject constructor(
     suspend fun getAll(): List<PetEntity>? {
         return withContext(Dispatchers.IO) {
             petDao.getAll()
+        }
+    }
+
+    suspend fun update(id: Int, image: String) {
+        withContext(Dispatchers.IO) {
+            petDao.update(id, image)
         }
     }
 }

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -22,6 +23,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
+import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -35,6 +37,7 @@ import ru.kpfu.itis.gureva.catcare.utils.DownloadStatus
 import ru.kpfu.itis.gureva.catcare.utils.FieldError
 import ru.kpfu.itis.gureva.catcare.utils.Formatter
 import ru.kpfu.itis.gureva.catcare.utils.SavingStatus
+import ru.kpfu.itis.gureva.catcare.utils.lazyViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import javax.inject.Inject
@@ -45,12 +48,11 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
     @Inject
     lateinit var sharedPreferences: SharedPreferences
 
-    @Inject
-    internal lateinit var viewModelFactory: Lazy<ViewModelProvider.Factory>
-
-    private val viewModel: PetProfileViewModel by viewModels {
-        viewModelFactory.get()
+    private val viewModel: PetProfileEditingViewModel by lazyViewModel {
+        requireContext().appComponent.getPetProfileEditingViewModel().create(petId)
     }
+
+    private var petId: Int? = null
 
     private var alertDialog: AlertDialog? = null
 
@@ -70,6 +72,8 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentPetProfileEditingBinding.bind(view)
+
+        petId = arguments?.getInt(ARG_ID)
 
         observeEditTexts()
         initTextChangeListeners()
@@ -150,9 +154,8 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
             viewModel.savingStatus.observe(viewLifecycleOwner) {
                 when (it) {
                     SavingStatus.OK -> {
-                        if (viewModel.downloadStatus.value != DownloadStatus.EXECUTION) {
-                            showDialogSavingProfile()
-                        }
+                        showDialogSavingProfile()
+
                         if (!sharedPreferences.getBoolean(Keys.REGISTRATION_KEY, false)) {
                             sharedPreferences.edit {
                                 putBoolean(Keys.REGISTRATION_KEY, true)
@@ -167,10 +170,9 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
             }
 
             viewModel.downloadStatus.observe(viewLifecycleOwner) {
-                alertDialog?.hide()
+                alertDialog?.dismiss()
                 when (it) {
                     DownloadStatus.OK -> {
-                        showDialogSavingProfile()
                     }
                     DownloadStatus.ERROR -> {
                         MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog)
@@ -226,11 +228,12 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
 
     private fun getDatePicker(date: String): MaterialDatePicker<Long> {
         val dateValidator: CalendarConstraints.DateValidator = DateValidatorPointBackward.now()
+        val validator = DateValidatorPointForward.from(SimpleDateFormat(Formatter.DATE_WITHOUT_TIME).parse("01.01.1970").time)
 
         return MaterialDatePicker.Builder.datePicker()
             .setSelection(SimpleDateFormat(Formatter.DATE_WITHOUT_TIME).parse(date).time)
             .setCalendarConstraints(
-                CalendarConstraints.Builder().setValidator(dateValidator).build()
+                CalendarConstraints.Builder().setValidator(dateValidator).setValidator(validator).build()
             )
             .build()
     }
@@ -253,6 +256,16 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
                     }
                 })
                 .into(ivCat)
+        }
+    }
+
+    companion object {
+        private const val ARG_ID = "arg_id"
+
+        fun newInstance(id: Int) = PetProfileEditingFragment().apply {
+            arguments = Bundle().apply {
+                putInt(ARG_ID, id)
+            }
         }
     }
 }

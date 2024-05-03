@@ -18,7 +18,15 @@
     <string name="edit">Редактировать</string>
     <string name="download">Идет загрузка</string>
     <string name="download_successful">Загрузка фотографии успешно завершена</string>
+    <string name="download_failed">Произошла ошибка при загрузке фотографии. Проверьте подключение к интернету.</string>
     <string name="btn_ok">ОК</string>
     <string name="profile_saving_successful">Профиль успешно изменен</string>
     <string name="profile_saving_failed">Произошла ошибка. Попробуйте позднее.</string>
+    <string name="flea_treatment">Обработка от блох</string>
+    <string name="unusual_behaviour">Необычное поведение</string>
+    <string name="vaccination">Вакцинация</string>
+    <string name="medicine">Прием лекарств</string>
+    <string name="trip_to_vet">Поход к ветеринару</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
