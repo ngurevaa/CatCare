@@ -1,11 +1,10 @@
-package ru.kpfu.itis.gureva.catcare.presentation.ui.helpful
+package ru.kpfu.itis.gureva.catcare.presentation.screens.helpful
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 import ru.kpfu.itis.gureva.catcare.domain.usecase.GetCatFactUseCase
 import ru.kpfu.itis.gureva.catcare.presentation.mapper.CatFactUIModelMapper
 import ru.kpfu.itis.gureva.catcare.presentation.model.CatFactUIModel

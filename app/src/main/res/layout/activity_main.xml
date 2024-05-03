@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.MainActivity">
+    tools:context=".presentation.MainActivity"
+    android:background="@color/beige">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/main_container"
@@ -20,5 +21,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_navigation_menu"
         app:itemActiveIndicatorStyle="@style/App.Custom.Indicator"
-        app:labelVisibilityMode="selected"/>
+        app:labelVisibilityMode="unlabeled" />
 </androidx.constraintlayout.widget.ConstraintLayout>

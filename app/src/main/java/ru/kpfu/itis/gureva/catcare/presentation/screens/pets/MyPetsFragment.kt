@@ -1,4 +1,4 @@
-package ru.kpfu.itis.gureva.catcare.presentation.ui.pets
+package ru.kpfu.itis.gureva.catcare.presentation.screens.pets
 
 import androidx.fragment.app.Fragment
 import ru.kpfu.itis.gureva.catcare.R

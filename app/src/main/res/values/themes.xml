@@ -1,19 +1,33 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.CatCare" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/bright_orange</item>
-        <item name="colorSurfaceContainer">@color/soft_orange</item>
+        <item name="colorPrimary">@color/b</item>
+        <item name="colorSurfaceContainer">@color/milk</item>
         <item name="colorOnSurface">@color/brown</item>
         <item name="colorOnSurfaceVariant">@color/soft_brown</item>
         <item name="colorOnSecondaryContainer">@color/brown</item>
         <item name="colorOnPrimary">@color/white</item>
-        <item name="colorSurfaceContainerHighest">@color/soft_orange</item>
+        <item name="colorSurfaceContainerHighest">@color/grey</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.App.MaterialAlertDialog</item>
+        <item name="snackbarTextViewStyle">@style/App.Widget.Material3.Snackbar.TextView</item>
+    </style>
+
+    <style name="App.Widget.Material3.Snackbar.TextView" parent="Widget.Material3.Snackbar.TextView">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="ThemeOverlay.App.MaterialAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.App.Title.Text</item>
+    </style>
+
+    <style name="MaterialAlertDialog.App.Title.Text" parent="MaterialAlertDialog.Material3.Title.Text">
+        <item name="fontFamily">@font/montserrat_regular</item>
     </style>
 
     <style name="Theme.CatCare" parent="Base.Theme.CatCare" />
 
     <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
-        <item name="android:color">@color/soft_orange_2</item>
+        <item name="android:color">@color/brown_milk</item>
     </style>
 
     <style name="Headline">
@@ -30,5 +44,34 @@
     <style name="Text">
         <item name="fontFamily">@font/montserrat_regular</item>
         <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="Widget.App.ExposedDropdownMenu" parent="Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.ExposedDropdownMenu</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent</item>
+    </style>
+
+    <style name="ThemeOverlay.App.ExposedDropdownMenu" parent="">
+        <item name="textAppearanceBodyLarge">@style/TextAppearance.App.BodyLarge</item>
+        <item name="textAppearanceBodySmall">@style/TextAppearance.App.BodySmall</item>
+    </style>
+
+    <style name="TextAppearance.App.BodyLarge" parent="TextAppearance.Material3.BodyLarge">
+        <item name="fontFamily">@font/montserrat_regular</item>
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="TextAppearance.App.BodySmall" parent="TextAppearance.Material3.BodySmall">
+        <item name="fontFamily">@font/montserrat_regular</item>
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">4dp</item>
+    </style>
+
+    <style name="Autocomplete" parent="Widget.Material3.AutoCompleteTextView.FilledBox">
+        <item name="simpleItemSelectedColor">@color/brown_milk</item>
     </style>
 </resources>

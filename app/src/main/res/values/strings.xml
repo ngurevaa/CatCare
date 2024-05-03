@@ -1,11 +1,24 @@
 <resources>
     <string name="app_name">CatCare</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="my_pets">Мои питомцы</string>
     <string name="diary">Дневник</string>
     <string name="helpful">Полезное</string>
     <string name="btn_fact">Факт о кошках</string>
     <string name="btn_another_fact">Другой факт</string>
-    <string name="cat_fact_error">Произошла ошибка. Проверьте подключение к интернету.</string>
+    <string name="internet_connection_error">Произошла ошибка. Проверьте подключение к интернету.</string>
+    <string name="btn_start">Начать</string>
+    <string name="name">Имя</string>
+    <string name="breed">Порода</string>
+    <string name="gender">Пол</string>
+    <string name="gender_female">Женский</string>
+    <string name="gender_male">Мужской</string>
+    <string name="birth_day">День рождения</string>
+    <string name="btn_save">Сохранить</string>
+    <string name="error_field_must_not_be_empty">Поле не должно быть пустым</string>
+    <string name="edit">Редактировать</string>
+    <string name="download">Идет загрузка</string>
+    <string name="download_successful">Загрузка фотографии успешно завершена</string>
+    <string name="btn_ok">ОК</string>
+    <string name="profile_saving_successful">Профиль успешно изменен</string>
+    <string name="profile_saving_failed">Произошла ошибка. Попробуйте позднее.</string>
 </resources>

@@ -1,8 +1,7 @@
-package ru.kpfu.itis.gureva.catcare.presentation.ui.helpful
+package ru.kpfu.itis.gureva.catcare.presentation.screens.helpful
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -10,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
@@ -74,7 +74,7 @@ class CatFactFragment : Fragment(R.layout.fragment_cat_fact) {
                         else -> {
                             binding?.run {
                                 progressIndicator.visibility = View.INVISIBLE
-                                Snackbar.make(root, getString(R.string.cat_fact_error), Snackbar.LENGTH_LONG).show()
+                                Snackbar.make(root, getString(R.string.internet_connection_error), Snackbar.LENGTH_LONG).show()
                             }
                         }
                     }
@@ -87,6 +87,7 @@ class CatFactFragment : Fragment(R.layout.fragment_cat_fact) {
         binding?.run {
             Glide.with(requireContext())
                 .load(url)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .signature(ObjectKey(System.currentTimeMillis()))
                 .listener(object : RequestListener<Drawable> {
                     override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>, isFirstResource: Boolean

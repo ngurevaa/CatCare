@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".presentation.ui.helpful.HelpfulFragment">
+    tools:context=".presentation.screens.helpful.HelpfulFragment"
+    android:background="@color/beige">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/btn_fact"
@@ -22,10 +23,11 @@
 
             <TextView
                 android:id="@+id/tv_fact"
-                style="@style/Headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/btn_fact"
+                android:textSize="24sp"
+                android:fontFamily="@font/montserrat_semibold"
                 android:layout_marginStart="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +38,7 @@
                 android:id="@+id/iv_cat"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@drawable/cat_fact"
+                android:src="@drawable/cat"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tv_fact"
                 app:layout_constraintHorizontal_chainStyle="packed"

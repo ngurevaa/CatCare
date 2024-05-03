@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "137896599297",
+    "project_id": "catcare-b527b",
+    "storage_bucket": "catcare-b527b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:137896599297:android:f42453aaa4901375b94500",
+        "android_client_info": {
+          "package_name": "ru.kpfu.itis.gureva.catcare"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAn1a_QxNiuZ0XgrolmwOPLKxFZTsbRlsI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
