@@ -20,6 +20,7 @@ class MyPetsRecyclerViewAdapter(
 
     fun updateList(list: List<PetEntity>) {
         this.list = list
+        notifyDataSetChanged()
     }
 
     override fun getItemViewType(position: Int): Int {

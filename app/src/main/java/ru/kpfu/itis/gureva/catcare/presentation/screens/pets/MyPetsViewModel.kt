@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.kpfu.itis.gureva.catcare.data.database.entity.PetEntity
 import ru.kpfu.itis.gureva.catcare.data.database.repository.PetRepository
-import ru.kpfu.itis.gureva.catcare.presentation.model.PetModel
 import javax.inject.Inject
 
 class MyPetsViewModel @Inject constructor(
