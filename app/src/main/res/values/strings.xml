@@ -43,5 +43,9 @@
     <string name="sad">Грустный</string>
     <string name="active">Активный</string>
     <string name="fearful">Пугливый</string>
-    <string name="perhaps_you_remember_something_special">Возможно запомнилось что-то особенное?</string>
+    <string name="behaviour_adding_hint">Возможно запомнилось что-то особенное?</string>
+    <string name="vaccination_adding_hint">Введите данные о вакцине</string>
+    <string name="medicine_adding_hint">Введите данные о лекарстве</string>
+    <string name="treatment_adding_hint">Введите данные о препарате</string>
+    <string name="vet_adding_hint">Введите поставленный диагноз</string>
 </resources>

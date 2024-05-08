@@ -1,18 +1,17 @@
-package ru.kpfu.itis.gureva.catcare.presentation.screens.unusual
+package ru.kpfu.itis.gureva.catcare.presentation.screens.treatment
 
 import android.content.Context
 import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.Fragment
+import android.view.View
 import androidx.recyclerview.widget.ItemTouchHelper
-import com.bumptech.glide.Glide
 import ru.kpfu.itis.gureva.catcare.R
-import ru.kpfu.itis.gureva.catcare.data.database.entity.BehaviourEntity
 import ru.kpfu.itis.gureva.catcare.databinding.FragmentNoteBinding
 import ru.kpfu.itis.gureva.catcare.di.appComponent
-import ru.kpfu.itis.gureva.catcare.presentation.adapter.UnusualBehaviourRecyclerViewAdapter
+import ru.kpfu.itis.gureva.catcare.presentation.adapter.TreatmentRecyclerViewAdapter
 import ru.kpfu.itis.gureva.catcare.presentation.helper.ItemTouchSwipeLeft
-import ru.kpfu.itis.gureva.catcare.presentation.screens.unusual.adding.BehaviourAddingFragment
+import ru.kpfu.itis.gureva.catcare.presentation.screens.treatment.adding.TreatmentAddingBottomSheetFragment
+import ru.kpfu.itis.gureva.catcare.presentation.screens.vaccination.adding.VaccinationAddingBottomSheetFragment
 import ru.kpfu.itis.gureva.catcare.utils.Formatter
 import ru.kpfu.itis.gureva.catcare.utils.ResourceManager
 import ru.kpfu.itis.gureva.catcare.utils.SimpleVerticalDecorator
@@ -21,18 +20,16 @@ import ru.kpfu.itis.gureva.catcare.utils.observe
 import java.text.SimpleDateFormat
 import javax.inject.Inject
 
-class UnusualBehaviourFragment : Fragment(R.layout.fragment_note) {
+class TreatmentFragment : Fragment(R.layout.fragment_note) {
     private var binding: FragmentNoteBinding? = null
 
     private var petId: Int? = null
 
-    private var adapter: UnusualBehaviourRecyclerViewAdapter? = null
-
-    private val viewModel: UnusualBehaviourViewModel by lazyViewModel {
-        requireContext().appComponent.getUnusualBehaviourViewModel().create(petId ?: 1)
+    private val viewModel: TreatmentViewModel by lazyViewModel {
+        requireContext().appComponent.getTreatmentViewModel().create(petId ?: 1)
     }
 
-    private val fragmentContainerId: Int = R.id.main_container
+    private var adapter: TreatmentRecyclerViewAdapter? = null
 
     @Inject
     lateinit var resourceManager: ResourceManager
@@ -49,13 +46,9 @@ class UnusualBehaviourFragment : Fragment(R.layout.fragment_note) {
         petId = arguments?.getInt(ARG_ID)
 
         binding?.run {
-            tvTitle.text = getString(R.string.unusual_behaviour)
+            tvTitle.text = getString(R.string.flea_treatment)
 
-            adapter = UnusualBehaviourRecyclerViewAdapter(
-                listOf(),
-                resourceManager,
-                Glide.with(requireContext())
-            )
+            adapter = TreatmentRecyclerViewAdapter()
             rv.addItemDecoration(SimpleVerticalDecorator(20))
             rv.adapter = adapter
 
@@ -63,30 +56,27 @@ class UnusualBehaviourFragment : Fragment(R.layout.fragment_note) {
             itemTouchHelper.attachToRecyclerView(rv)
 
             btnAdd.setOnClickListener {
-                parentFragmentManager.beginTransaction()
-                    .replace(fragmentContainerId, BehaviourAddingFragment.newInstance(petId ?: 1))
-                    .addToBackStack(null)
-                    .commit()
+                TreatmentAddingBottomSheetFragment.newInstance(petId ?: 1).show(parentFragmentManager, null)
             }
         }
 
         observerData()
     }
 
-    private fun onItemDelete(position: Int) {
-        viewModel.removeItem(position)
+    private fun observerData() {
+        viewModel.treatments.observe(viewLifecycleOwner) {
+            adapter?.submitList(it)
+        }
     }
 
-    private fun observerData() {
-        viewModel.behaviours.observe(viewLifecycleOwner) { it ->
-            adapter?.updateList(it)
-        }
+    private fun onItemDelete(position: Int) {
+        viewModel.removeItem(position)
     }
 
     companion object {
         private const val ARG_ID = "arg_id"
 
-        fun newInstance(id: Int) = UnusualBehaviourFragment().apply {
+        fun newInstance(id: Int) = TreatmentFragment().apply {
             arguments = Bundle().apply {
                 putInt(ARG_ID, id)
             }

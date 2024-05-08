@@ -15,6 +15,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import ru.kpfu.itis.gureva.catcare.R
+import ru.kpfu.itis.gureva.catcare.base.Constants
 import ru.kpfu.itis.gureva.catcare.data.database.entity.BehaviourEntity
 import ru.kpfu.itis.gureva.catcare.databinding.FragmentBehaviourAddingBinding
 import ru.kpfu.itis.gureva.catcare.di.appComponent
@@ -44,8 +45,8 @@ class BehaviourAddingFragment : Fragment(R.layout.fragment_behaviour_adding) {
 
         petId = arguments?.getInt(ARG_ID)
 
-        fontRegular = Typeface.createFromAsset(requireContext().assets, "montserrat_medium.ttf")
-        fontSemiBold = Typeface.createFromAsset(requireContext().assets, "montserrat_semi_bold.ttf")
+        fontRegular = Typeface.createFromAsset(requireContext().assets, Constants.FONT_MONTSERRAT_MEDIUM)
+        fontSemiBold = Typeface.createFromAsset(requireContext().assets, Constants.FONT_MONTSERRAT_SEMI_BOLD)
 
         binding?.run {
             layoutActive.setOnClickListener {
