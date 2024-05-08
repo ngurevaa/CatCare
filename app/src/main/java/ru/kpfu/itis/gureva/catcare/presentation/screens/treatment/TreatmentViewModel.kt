@@ -10,6 +10,7 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import ru.kpfu.itis.gureva.catcare.base.Keys
+import ru.kpfu.itis.gureva.catcare.data.database.entity.MedicineEntity
 import ru.kpfu.itis.gureva.catcare.data.database.entity.TreatmentEntity
 import ru.kpfu.itis.gureva.catcare.data.database.entity.VaccinationEntity
 import ru.kpfu.itis.gureva.catcare.data.database.entity.WeightEntity
@@ -29,12 +30,22 @@ class TreatmentViewModel @AssistedInject constructor(
         }
     }
 
+    private var removedItem: TreatmentEntity? = null
+
     fun removeItem(position: Int) {
         viewModelScope.launch {
-            treatments.value?.get(position)?.let { treatmentRepository.delete(it) }
+            removedItem = treatments.value?.get(position)
+            removedItem?.let { treatmentRepository.delete(it) }
         }
     }
 
+    fun returnItem() {
+        viewModelScope.launch {
+            removedItem?.let {
+                treatmentRepository.save(it)
+            }
+        }
+    }
 
     @AssistedFactory
     interface Factory {

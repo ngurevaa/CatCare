@@ -12,6 +12,8 @@
         <item name="colorSurfaceContainerHighest">@color/gray</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.App.MaterialAlertDialog</item>
         <item name="snackbarTextViewStyle">@style/App.Widget.Material3.Snackbar.TextView</item>
+        <item name="colorPrimaryInverse">@color/moderate_orange</item>
+        <item name="snackbarButtonStyle">@style/Widget.App.SnackbarButton</item>
     </style>
 
     <style name="App.Widget.Material3.Snackbar.TextView" parent="Widget.Material3.Snackbar.TextView">
@@ -75,5 +77,9 @@
 
     <style name="Autocomplete" parent="Widget.Material3.AutoCompleteTextView.FilledBox">
         <item name="simpleItemSelectedColor">@color/brown_milk</item>
+    </style>
+
+    <style name="Widget.App.SnackbarButton" parent="Widget.Material3.Button.TextButton.Snackbar">
+        <item name="fontFamily">@font/montserrat_semi_bold</item>
     </style>
 </resources>

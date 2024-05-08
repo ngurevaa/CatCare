@@ -6,6 +6,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import ru.kpfu.itis.gureva.catcare.R
 import ru.kpfu.itis.gureva.catcare.data.database.entity.BehaviourEntity
 import ru.kpfu.itis.gureva.catcare.databinding.FragmentNoteBinding
@@ -75,6 +76,12 @@ class UnusualBehaviourFragment : Fragment(R.layout.fragment_note) {
 
     private fun onItemDelete(position: Int) {
         viewModel.removeItem(position)
+
+        binding?.let { Snackbar.make(it.root, getString(R.string.note_deleted), Snackbar.LENGTH_LONG)
+                            .setAction(R.string.cancel) {
+                                viewModel.returnItem()
+                            }.show()
+        }
     }
 
     private fun observerData() {

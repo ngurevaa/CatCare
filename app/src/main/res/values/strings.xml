@@ -48,4 +48,6 @@
     <string name="medicine_adding_hint">Введите данные о лекарстве</string>
     <string name="treatment_adding_hint">Введите данные о препарате</string>
     <string name="vet_adding_hint">Введите поставленный диагноз</string>
+    <string name="note_deleted">Запись удалена</string>
+    <string name="cancel">Отменить</string>
 </resources>

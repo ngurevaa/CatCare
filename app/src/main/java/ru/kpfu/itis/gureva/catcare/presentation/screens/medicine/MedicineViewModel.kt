@@ -27,12 +27,24 @@ class MedicineViewModel @AssistedInject constructor(
         }
     }
 
+    private var removedItem: MedicineEntity? = null
+
     fun removeItem(position: Int) {
         viewModelScope.launch {
-            medicines.value?.get(position)?.let { medicineRepository.delete(it) }
+            removedItem = medicines.value?.get(position)
+            removedItem?.let {
+                medicineRepository.delete(it)
+            }
         }
     }
 
+    fun returnItem() {
+        viewModelScope.launch {
+            removedItem?.let {
+                medicineRepository.save(it)
+            }
+        }
+    }
 
     @AssistedFactory
     interface Factory {

@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import ru.kpfu.itis.gureva.catcare.base.Keys
 import ru.kpfu.itis.gureva.catcare.data.database.entity.BehaviourEntity
+import ru.kpfu.itis.gureva.catcare.data.database.entity.MedicineEntity
 import ru.kpfu.itis.gureva.catcare.data.database.entity.WeightEntity
 import ru.kpfu.itis.gureva.catcare.data.database.repository.BehaviourRepository
 import ru.kpfu.itis.gureva.catcare.data.database.repository.WeightRepository
@@ -29,11 +30,23 @@ class UnusualBehaviourViewModel @AssistedInject constructor(
         }
     }
 
+    private var removedItem: BehaviourEntity? = null
+
     fun removeItem(position: Int) {
         viewModelScope.launch {
-            behaviours.value?.get(position)?.let { behaviourRepository.delete(it) }
+            removedItem = behaviours.value?.get(position)
+            removedItem?.let { behaviourRepository.delete(it) }
         }
     }
+
+    fun returnItem() {
+        viewModelScope.launch {
+            removedItem?.let {
+                behaviourRepository.save(it)
+            }
+        }
+    }
+
     @AssistedFactory
     interface Factory {
         fun create(@Assisted(Keys.PET_ID) petId: Int): UnusualBehaviourViewModel

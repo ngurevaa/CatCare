@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
 import ru.kpfu.itis.gureva.catcare.base.Keys
+import ru.kpfu.itis.gureva.catcare.data.database.entity.MedicineEntity
 import ru.kpfu.itis.gureva.catcare.data.database.entity.WeightEntity
 import ru.kpfu.itis.gureva.catcare.data.database.repository.PetRepository
 import ru.kpfu.itis.gureva.catcare.data.database.repository.WeightRepository
@@ -35,9 +36,20 @@ class WeightControlViewModel @AssistedInject constructor(
         }
     }
 
+    private var removedItem: WeightEntity? = null
+
     fun removeItem(position: Int) {
         viewModelScope.launch {
-            weights.value?.get(position)?.let { weightRepository.delete(it) }
+            removedItem = weights.value?.get(position)
+            removedItem?.let { weightRepository.delete(it) }
+        }
+    }
+
+    fun returnItem() {
+        viewModelScope.launch {
+            removedItem?.let {
+                weightRepository.save(it)
+            }
         }
     }
 

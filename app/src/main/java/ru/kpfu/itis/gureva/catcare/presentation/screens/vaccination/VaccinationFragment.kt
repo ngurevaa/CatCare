@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.recyclerview.widget.ItemTouchHelper
+import com.google.android.material.snackbar.Snackbar
 import ru.kpfu.itis.gureva.catcare.R
 import ru.kpfu.itis.gureva.catcare.databinding.FragmentNoteBinding
 import ru.kpfu.itis.gureva.catcare.di.appComponent
@@ -70,6 +71,12 @@ class VaccinationFragment : Fragment(R.layout.fragment_note) {
 
     private fun onItemDelete(position: Int) {
         viewModel.removeItem(position)
+
+        binding?.let { Snackbar.make(it.root, getString(R.string.note_deleted), Snackbar.LENGTH_LONG)
+                            .setAction(R.string.cancel) {
+                                viewModel.returnItem()
+                            }.show()
+        }
     }
 
     companion object {
