@@ -1,5 +1,6 @@
 package ru.kpfu.itis.gureva.catcare.presentation.screens.vet
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
@@ -16,13 +17,14 @@ import ru.kpfu.itis.gureva.catcare.data.database.entity.VetEntity
 import ru.kpfu.itis.gureva.catcare.data.database.entity.WeightEntity
 import ru.kpfu.itis.gureva.catcare.data.database.repository.VaccinationRepository
 import ru.kpfu.itis.gureva.catcare.data.database.repository.VetRepository
+import ru.kpfu.itis.gureva.catcare.presentation.screens.base.BaseViewModel
 import ru.kpfu.itis.gureva.catcare.utils.Formatter
 import java.text.SimpleDateFormat
 
 class VetViewModel @AssistedInject constructor(
     @Assisted(value = Keys.PET_ID) private val petId: Int,
     private val vetRepository: VetRepository
-) : ViewModel() {
+) : BaseViewModel() {
     val vets: LiveData<List<VetEntity>> = vetRepository.getAllByPetId(petId).map {
         val dateFormat = SimpleDateFormat(Formatter.DATE_WITHOUT_TIME)
         it.sortedByDescending { item ->
@@ -32,14 +34,14 @@ class VetViewModel @AssistedInject constructor(
 
     private var removedItem: VetEntity? = null
 
-    fun removeItem(position: Int) {
+    override fun removeItem(position: Int) {
         viewModelScope.launch {
             removedItem = vets.value?.get(position)
-                removedItem?.let { vetRepository.delete(it) }
+            removedItem?.let { vetRepository.delete(it) }
         }
     }
 
-    fun returnItem() {
+    override fun returnItem() {
         viewModelScope.launch {
             removedItem?.let {
                 vetRepository.save(it)

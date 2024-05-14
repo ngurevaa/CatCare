@@ -17,9 +17,9 @@ class BehaviourAddingViewModel @AssistedInject constructor(
     private val behaviourRepository: BehaviourRepository
 ) : ViewModel() {
 
-    fun save(id: Int, behaviour: Behaviour, description: String, date: String) {
+    fun save(behaviour: Behaviour, description: String, date: String) {
         viewModelScope.launch {
-            behaviourRepository.save(BehaviourEntity(null, id, behaviour, description, date))
+            behaviourRepository.save(BehaviourEntity(null, petId, behaviour, description, date))
         }
     }
 

@@ -20,6 +20,7 @@ import ru.kpfu.itis.gureva.catcare.data.database.entity.MedicineEntity
 import ru.kpfu.itis.gureva.catcare.data.database.entity.WeightEntity
 import ru.kpfu.itis.gureva.catcare.data.database.repository.PetRepository
 import ru.kpfu.itis.gureva.catcare.data.database.repository.WeightRepository
+import ru.kpfu.itis.gureva.catcare.presentation.screens.base.BaseViewModel
 import ru.kpfu.itis.gureva.catcare.presentation.screens.profile.PetProfileViewModel
 import ru.kpfu.itis.gureva.catcare.utils.Formatter
 import java.text.SimpleDateFormat
@@ -27,7 +28,7 @@ import java.text.SimpleDateFormat
 class WeightControlViewModel @AssistedInject constructor(
     @Assisted(value = Keys.PET_ID) private val petId: Int,
     private val weightRepository: WeightRepository
-) : ViewModel() {
+) : BaseViewModel() {
 
     val weights: LiveData<List<WeightEntity>> = weightRepository.getAllByPetId(petId).map {
         val dateFormat = SimpleDateFormat(Formatter.DATE_WITHOUT_TIME)
@@ -38,14 +39,14 @@ class WeightControlViewModel @AssistedInject constructor(
 
     private var removedItem: WeightEntity? = null
 
-    fun removeItem(position: Int) {
+    override fun removeItem(position: Int) {
         viewModelScope.launch {
             removedItem = weights.value?.get(position)
             removedItem?.let { weightRepository.delete(it) }
         }
     }
 
-    fun returnItem() {
+    override fun returnItem() {
         viewModelScope.launch {
             removedItem?.let {
                 weightRepository.save(it)

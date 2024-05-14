@@ -16,13 +16,14 @@ import ru.kpfu.itis.gureva.catcare.data.database.entity.VaccinationEntity
 import ru.kpfu.itis.gureva.catcare.data.database.entity.WeightEntity
 import ru.kpfu.itis.gureva.catcare.data.database.repository.TreatmentRepository
 import ru.kpfu.itis.gureva.catcare.data.database.repository.VaccinationRepository
+import ru.kpfu.itis.gureva.catcare.presentation.screens.base.BaseViewModel
 import ru.kpfu.itis.gureva.catcare.utils.Formatter
 import java.text.SimpleDateFormat
 
 class TreatmentViewModel @AssistedInject constructor(
     @Assisted(value = Keys.PET_ID) private val petId: Int,
     private val treatmentRepository: TreatmentRepository
-) : ViewModel() {
+) : BaseViewModel() {
     val treatments: LiveData<List<TreatmentEntity>> = treatmentRepository.getAllByPetId(petId).map {
         val dateFormat = SimpleDateFormat(Formatter.DATE_WITHOUT_TIME)
         it.sortedByDescending { item ->
@@ -32,14 +33,14 @@ class TreatmentViewModel @AssistedInject constructor(
 
     private var removedItem: TreatmentEntity? = null
 
-    fun removeItem(position: Int) {
+    override fun removeItem(position: Int) {
         viewModelScope.launch {
             removedItem = treatments.value?.get(position)
             removedItem?.let { treatmentRepository.delete(it) }
         }
     }
 
-    fun returnItem() {
+    override fun returnItem() {
         viewModelScope.launch {
             removedItem?.let {
                 treatmentRepository.save(it)

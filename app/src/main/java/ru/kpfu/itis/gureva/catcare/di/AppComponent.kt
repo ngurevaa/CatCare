@@ -8,6 +8,7 @@ import ru.kpfu.itis.gureva.catcare.data.di.NetworkModule
 import ru.kpfu.itis.gureva.catcare.data.di.DataModule
 import ru.kpfu.itis.gureva.catcare.presentation.MainActivity
 import ru.kpfu.itis.gureva.catcare.presentation.di.ViewModelBinderModule
+import ru.kpfu.itis.gureva.catcare.presentation.screens.base.BaseFragment
 import ru.kpfu.itis.gureva.catcare.presentation.screens.helpful.CatFactFragment
 import ru.kpfu.itis.gureva.catcare.presentation.screens.helpful.HelpfulFragment
 import ru.kpfu.itis.gureva.catcare.presentation.screens.medicine.MedicineFragment
@@ -71,11 +72,6 @@ interface AppComponent {
     fun inject(fragment: CatFactFragment)
     fun inject(fragment: PetProfileEditingFragment)
     fun inject(fragment: MyPetsFragment)
-    fun inject(fragment: UnusualBehaviourFragment)
-    fun inject(fragment: WeightControlFragment)
-    fun inject(fragment: VetFragment)
-    fun inject(fragment: VaccinationFragment)
-    fun inject(fragment: TreatmentFragment)
-    fun inject(fragment: MedicineFragment)
+    fun inject(fragment: BaseFragment)
 }
 

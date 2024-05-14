@@ -44,7 +44,7 @@ class BehaviourAddingBottomSheetFragment : BottomSheetDialogFragment(R.layout.fr
             }
 
             btnAdd.setOnClickListener {
-                viewModel.save(petId ?: 1, (arguments?.getSerializable(ARG_BEHAVIOUR) as Behaviour),
+                viewModel.save((arguments?.getSerializable(ARG_BEHAVIOUR) as Behaviour),
                     etDescription.text.toString(), etDate.text.toString())
                 dismiss()
                 parentFragmentManager.popBackStack()

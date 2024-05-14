@@ -11,6 +11,7 @@ import ru.kpfu.itis.gureva.catcare.databinding.FragmentNoteBinding
 import ru.kpfu.itis.gureva.catcare.di.appComponent
 import ru.kpfu.itis.gureva.catcare.presentation.adapter.TreatmentRecyclerViewAdapter
 import ru.kpfu.itis.gureva.catcare.presentation.helper.ItemTouchSwipeLeft
+import ru.kpfu.itis.gureva.catcare.presentation.screens.base.BaseFragment
 import ru.kpfu.itis.gureva.catcare.presentation.screens.treatment.adding.TreatmentAddingBottomSheetFragment
 import ru.kpfu.itis.gureva.catcare.presentation.screens.vaccination.adding.VaccinationAddingBottomSheetFragment
 import ru.kpfu.itis.gureva.catcare.utils.Formatter
@@ -21,30 +22,18 @@ import ru.kpfu.itis.gureva.catcare.utils.observe
 import java.text.SimpleDateFormat
 import javax.inject.Inject
 
-class TreatmentFragment : Fragment(R.layout.fragment_note) {
+class TreatmentFragment : BaseFragment() {
     private var binding: FragmentNoteBinding? = null
 
-    private var petId: Int? = null
-
-    private val viewModel: TreatmentViewModel by lazyViewModel {
+    override val viewModel: TreatmentViewModel by lazyViewModel {
         requireContext().appComponent.getTreatmentViewModel().create(petId ?: 1)
     }
 
     private var adapter: TreatmentRecyclerViewAdapter? = null
 
-    @Inject
-    lateinit var resourceManager: ResourceManager
-
-    override fun onAttach(context: Context) {
-        requireContext().appComponent.inject(this)
-        super.onAttach(context)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentNoteBinding.bind(view)
-
-        petId = arguments?.getInt(ARG_ID)
 
         binding?.run {
             tvTitle.text = getString(R.string.flea_treatment)
@@ -70,19 +59,15 @@ class TreatmentFragment : Fragment(R.layout.fragment_note) {
         }
     }
 
-    private fun onItemDelete(position: Int) {
-        viewModel.removeItem(position)
+    override fun onItemDelete(position: Int) {
+        super.onItemDelete(position)
 
-        binding?.let { Snackbar.make(it.root, getString(R.string.note_deleted), Snackbar.LENGTH_LONG)
-                            .setAction(R.string.cancel) {
-                                viewModel.returnItem()
-                            }.show()
+        binding?.let {
+            showItemRemovedSnackbar(it.root)
         }
     }
 
     companion object {
-        private const val ARG_ID = "arg_id"
-
         fun newInstance(id: Int) = TreatmentFragment().apply {
             arguments = Bundle().apply {
                 putInt(ARG_ID, id)

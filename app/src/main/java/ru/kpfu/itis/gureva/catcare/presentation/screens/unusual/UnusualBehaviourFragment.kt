@@ -13,6 +13,7 @@ import ru.kpfu.itis.gureva.catcare.databinding.FragmentNoteBinding
 import ru.kpfu.itis.gureva.catcare.di.appComponent
 import ru.kpfu.itis.gureva.catcare.presentation.adapter.UnusualBehaviourRecyclerViewAdapter
 import ru.kpfu.itis.gureva.catcare.presentation.helper.ItemTouchSwipeLeft
+import ru.kpfu.itis.gureva.catcare.presentation.screens.base.BaseFragment
 import ru.kpfu.itis.gureva.catcare.presentation.screens.unusual.adding.BehaviourAddingFragment
 import ru.kpfu.itis.gureva.catcare.utils.Formatter
 import ru.kpfu.itis.gureva.catcare.utils.ResourceManager
@@ -22,32 +23,20 @@ import ru.kpfu.itis.gureva.catcare.utils.observe
 import java.text.SimpleDateFormat
 import javax.inject.Inject
 
-class UnusualBehaviourFragment : Fragment(R.layout.fragment_note) {
+class UnusualBehaviourFragment : BaseFragment() {
     private var binding: FragmentNoteBinding? = null
-
-    private var petId: Int? = null
 
     private var adapter: UnusualBehaviourRecyclerViewAdapter? = null
 
-    private val viewModel: UnusualBehaviourViewModel by lazyViewModel {
+    override val viewModel: UnusualBehaviourViewModel by lazyViewModel {
         requireContext().appComponent.getUnusualBehaviourViewModel().create(petId ?: 1)
     }
 
     private val fragmentContainerId: Int = R.id.main_container
 
-    @Inject
-    lateinit var resourceManager: ResourceManager
-
-    override fun onAttach(context: Context) {
-        requireContext().appComponent.inject(this)
-        super.onAttach(context)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentNoteBinding.bind(view)
-
-        petId = arguments?.getInt(ARG_ID)
 
         binding?.run {
             tvTitle.text = getString(R.string.unusual_behaviour)
@@ -74,13 +63,11 @@ class UnusualBehaviourFragment : Fragment(R.layout.fragment_note) {
         observerData()
     }
 
-    private fun onItemDelete(position: Int) {
-        viewModel.removeItem(position)
+    override fun onItemDelete(position: Int) {
+        super.onItemDelete(position)
 
-        binding?.let { Snackbar.make(it.root, getString(R.string.note_deleted), Snackbar.LENGTH_LONG)
-                            .setAction(R.string.cancel) {
-                                viewModel.returnItem()
-                            }.show()
+        binding?.let {
+            showItemRemovedSnackbar(it.root)
         }
     }
 
@@ -91,8 +78,6 @@ class UnusualBehaviourFragment : Fragment(R.layout.fragment_note) {
     }
 
     companion object {
-        private const val ARG_ID = "arg_id"
-
         fun newInstance(id: Int) = UnusualBehaviourFragment().apply {
             arguments = Bundle().apply {
                 putInt(ARG_ID, id)
