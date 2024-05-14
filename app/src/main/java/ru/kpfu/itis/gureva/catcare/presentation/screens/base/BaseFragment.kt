@@ -19,6 +19,8 @@ abstract class BaseFragment : Fragment(R.layout.fragment_note) {
 
     protected abstract val viewModel: BaseViewModel
 
+    private var snackbar: Snackbar? = null
+
     override fun onAttach(context: Context) {
         requireContext().appComponent.inject(this)
         super.onAttach(context)
@@ -34,10 +36,16 @@ abstract class BaseFragment : Fragment(R.layout.fragment_note) {
     }
 
     protected fun showItemRemovedSnackbar(view: View) {
-        Snackbar.make(view, getString(R.string.note_deleted), Snackbar.LENGTH_LONG)
+        snackbar = Snackbar.make(view, getString(R.string.note_deleted), Snackbar.LENGTH_LONG)
             .setAction(R.string.cancel) {
                 viewModel.returnItem()
-            }.show()
+            }
+        snackbar?.show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        snackbar?.dismiss()
     }
 
     companion object {

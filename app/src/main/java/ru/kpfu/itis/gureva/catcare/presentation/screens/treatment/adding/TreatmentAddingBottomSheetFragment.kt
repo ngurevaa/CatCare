@@ -7,26 +7,23 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ru.kpfu.itis.gureva.catcare.R
 import ru.kpfu.itis.gureva.catcare.databinding.FragmentAddingBottomSheetBinding
 import ru.kpfu.itis.gureva.catcare.di.appComponent
+import ru.kpfu.itis.gureva.catcare.presentation.screens.base.BaseAddingFragment
 import ru.kpfu.itis.gureva.catcare.utils.DatePicker
 import ru.kpfu.itis.gureva.catcare.utils.Formatter
 import ru.kpfu.itis.gureva.catcare.utils.lazyViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 
-class TreatmentAddingBottomSheetFragment : BottomSheetDialogFragment(R.layout.fragment_adding_bottom_sheet) {
+class TreatmentAddingBottomSheetFragment : BaseAddingFragment(R.layout.fragment_adding_bottom_sheet) {
     private var binding: FragmentAddingBottomSheetBinding? = null
 
-    private var petId: Int? = null
-
-    private val viewModel: TreatmentAddingViewModel by lazyViewModel {
+    override val viewModel: TreatmentAddingViewModel by lazyViewModel {
         requireContext().appComponent.getTreatmentAddingViewModel().create(petId ?: 1)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentAddingBottomSheetBinding.bind(view)
-
-        petId = arguments?.getInt(ARG_ID)
 
         binding?.run {
             tvAddComment.text = getString(R.string.treatment_adding_hint)
@@ -55,8 +52,6 @@ class TreatmentAddingBottomSheetFragment : BottomSheetDialogFragment(R.layout.fr
     }
 
     companion object {
-        private const val ARG_ID = "arg_id"
-
         fun newInstance(id: Int) = TreatmentAddingBottomSheetFragment().apply {
             arguments = Bundle().apply {
                 putInt(ARG_ID, id)

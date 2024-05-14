@@ -9,13 +9,14 @@ import kotlinx.coroutines.launch
 import ru.kpfu.itis.gureva.catcare.base.Keys
 import ru.kpfu.itis.gureva.catcare.data.database.entity.BehaviourEntity
 import ru.kpfu.itis.gureva.catcare.data.database.repository.BehaviourRepository
+import ru.kpfu.itis.gureva.catcare.presentation.screens.base.BaseAddingViewModel
 import ru.kpfu.itis.gureva.catcare.utils.Behaviour
 import java.io.Serializable
 
 class BehaviourAddingViewModel @AssistedInject constructor(
     @Assisted(value = Keys.PET_ID) private val petId: Int,
     private val behaviourRepository: BehaviourRepository
-) : ViewModel() {
+) : BaseAddingViewModel() {
 
     fun save(behaviour: Behaviour, description: String, date: String) {
         viewModelScope.launch {
@@ -26,5 +27,8 @@ class BehaviourAddingViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory {
         fun create(@Assisted(Keys.PET_ID) petId: Int): BehaviourAddingViewModel
+    }
+
+    override fun save(description: String, date: String) {
     }
 }

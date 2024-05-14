@@ -12,14 +12,15 @@ import ru.kpfu.itis.gureva.catcare.data.database.entity.VetEntity
 import ru.kpfu.itis.gureva.catcare.data.database.repository.VaccinationRepository
 import ru.kpfu.itis.gureva.catcare.data.database.repository.VetRepository
 import ru.kpfu.itis.gureva.catcare.data.database.repository.WeightRepository
+import ru.kpfu.itis.gureva.catcare.presentation.screens.base.BaseAddingViewModel
 import ru.kpfu.itis.gureva.catcare.presentation.screens.weight.adding.WeightAddingViewModel
 
 class VetAddingViewModel @AssistedInject constructor(
     @Assisted(value = Keys.PET_ID) private val petId: Int,
     private val vetRepository: VetRepository
-) : ViewModel() {
+) : BaseAddingViewModel() {
 
-    fun save(description: String, date: String) {
+    override fun save(description: String, date: String) {
         viewModelScope.launch {
             vetRepository.save(VetEntity(null, description, date, petId))
         }

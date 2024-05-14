@@ -2,7 +2,6 @@ package ru.kpfu.itis.gureva.catcare.presentation.screens.weight.adding
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -13,22 +12,23 @@ import ru.kpfu.itis.gureva.catcare.base.Constants
 import ru.kpfu.itis.gureva.catcare.base.Keys
 import ru.kpfu.itis.gureva.catcare.data.database.entity.WeightEntity
 import ru.kpfu.itis.gureva.catcare.data.database.repository.WeightRepository
+import ru.kpfu.itis.gureva.catcare.presentation.screens.base.BaseAddingViewModel
 import ru.kpfu.itis.gureva.catcare.utils.ResourceManager
 
 class WeightAddingViewModel @AssistedInject constructor(
     @Assisted(value = Keys.PET_ID) private val petId: Int,
     private val weightRepository: WeightRepository,
     private val resourceManager: ResourceManager
-) : ViewModel() {
+) : BaseAddingViewModel() {
     private val _error = MutableLiveData<String?>()
     val error: LiveData<String?>
         get() = _error
 
-    fun save(weight: String, date: String) {
-        if (checkFields(weight)) {
+    override fun save(description: String, date: String) {
+        if (checkFields(description)) {
             viewModelScope.launch {
                 weightRepository.save(
-                    WeightEntity(null, String.format("%.2f", weight.toFloat())
+                    WeightEntity(null, String.format("%.2f", description.toFloat())
                         .replace(',', '.').toFloat(), date, petId)
                 )
             }
