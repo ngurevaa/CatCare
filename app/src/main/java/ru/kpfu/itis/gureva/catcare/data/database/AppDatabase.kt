@@ -6,6 +6,7 @@ import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import ru.kpfu.itis.gureva.catcare.data.database.converter.BehaviourEnumConverter
 import ru.kpfu.itis.gureva.catcare.data.database.dao.BehaviourDao
+import ru.kpfu.itis.gureva.catcare.data.database.dao.DiaryDao
 import ru.kpfu.itis.gureva.catcare.data.database.dao.MedicineDao
 import ru.kpfu.itis.gureva.catcare.data.database.dao.PetDao
 import ru.kpfu.itis.gureva.catcare.data.database.dao.TreatmentDao
@@ -13,6 +14,7 @@ import ru.kpfu.itis.gureva.catcare.data.database.dao.VaccinationDao
 import ru.kpfu.itis.gureva.catcare.data.database.dao.VetDao
 import ru.kpfu.itis.gureva.catcare.data.database.dao.WeightDao
 import ru.kpfu.itis.gureva.catcare.data.database.entity.BehaviourEntity
+import ru.kpfu.itis.gureva.catcare.data.database.entity.DiaryEntity
 import ru.kpfu.itis.gureva.catcare.data.database.entity.MedicineEntity
 import ru.kpfu.itis.gureva.catcare.data.database.entity.PetEntity
 import ru.kpfu.itis.gureva.catcare.data.database.entity.TreatmentEntity
@@ -26,7 +28,8 @@ import ru.kpfu.itis.gureva.catcare.data.database.entity.WeightEntity
                         VaccinationEntity::class,
                         MedicineEntity::class,
                         TreatmentEntity::class,
-                        VetEntity::class],
+                        VetEntity::class,
+                        DiaryEntity::class],
             version = 1)
 @TypeConverters(BehaviourEnumConverter::class)
 abstract class AppDatabase : RoomDatabase() {
@@ -37,4 +40,5 @@ abstract class AppDatabase : RoomDatabase() {
     abstract val medicineDao: MedicineDao
     abstract val treatmentDao: TreatmentDao
     abstract val vetDao: VetDao
+    abstract val diaryDao: DiaryDao
 }

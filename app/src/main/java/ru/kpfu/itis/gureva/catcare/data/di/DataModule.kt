@@ -40,4 +40,7 @@ class DataModule {
 
     @Provides
     fun provideVetDao(database: AppDatabase) = database.vetDao
+
+    @Provides
+    fun provideDiaryDao(database: AppDatabase) = database.diaryDao
 }

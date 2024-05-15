@@ -176,7 +176,7 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
                     }
                     DownloadStatus.ERROR -> {
                         MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog)
-                            .setTitle(getString(R.string.internet_connection_error))
+                            .setTitle(getString(R.string.download_failed))
                             .setPositiveButton(getString(R.string.btn_ok)) {_, _ -> }
                             .show()
                     }
@@ -224,21 +224,6 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
                 viewModel.setBirthDay(text?.trim().toString())
             }
         }
-    }
-
-    private fun getDatePicker(date: String): MaterialDatePicker<Long> {
-        val dateValidator: CalendarConstraints.DateValidator = DateValidatorPointBackward.now()
-        val validator = DateValidatorPointForward.from(SimpleDateFormat(Formatter.DATE_WITHOUT_TIME).parse("01.01.1970").time)
-
-        return MaterialDatePicker.Builder.datePicker()
-            .setSelection(SimpleDateFormat(Formatter.DATE_WITHOUT_TIME).parse(date).time)
-            .setCalendarConstraints(
-                CalendarConstraints.Builder().setValidator(validator).build()
-            )
-            .setCalendarConstraints(
-                CalendarConstraints.Builder().setValidator(dateValidator).build()
-            )
-            .build()
     }
 
     private fun uploadImage(uri: String) {

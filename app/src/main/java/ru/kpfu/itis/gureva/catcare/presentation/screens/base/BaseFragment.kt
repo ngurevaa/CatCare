@@ -44,8 +44,8 @@ abstract class BaseFragment : Fragment(R.layout.fragment_note) {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         snackbar?.dismiss()
+        super.onDestroyView()
     }
 
     companion object {
