@@ -56,6 +56,8 @@ class MedicineFragment : BaseFragment() {
     private fun observerData() {
         viewModel.medicines.observe(viewLifecycleOwner) {
             adapter?.submitList(it)
+
+            binding?.tvHint?.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
         }
     }
 

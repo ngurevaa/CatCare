@@ -74,6 +74,8 @@ class UnusualBehaviourFragment : BaseFragment() {
     private fun observerData() {
         viewModel.behaviours.observe(viewLifecycleOwner) { it ->
             adapter?.updateList(it)
+
+            binding?.tvHint?.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
         }
     }
 

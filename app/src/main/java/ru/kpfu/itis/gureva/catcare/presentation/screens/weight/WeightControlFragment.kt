@@ -46,6 +46,8 @@ class WeightControlFragment : BaseFragment() {
 
         viewModel.weights.observe(viewLifecycleOwner) {
             adapter.updateList(it)
+
+            binding?.tvHint?.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
         }
     }
 

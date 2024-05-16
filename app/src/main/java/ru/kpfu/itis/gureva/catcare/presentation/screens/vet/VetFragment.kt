@@ -47,6 +47,8 @@ class VetFragment : BaseFragment() {
     private fun observerData() {
         viewModel.vets.observe(viewLifecycleOwner) {
             adapter?.submitList(it)
+
+            binding?.tvHint?.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
         }
     }
 

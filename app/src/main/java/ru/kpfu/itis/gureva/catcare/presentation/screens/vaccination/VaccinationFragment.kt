@@ -55,6 +55,8 @@ class VaccinationFragment : BaseFragment() {
     private fun observerData() {
         viewModel.vaccinations.observe(viewLifecycleOwner) {
             adapter?.submitList(it)
+
+            binding?.tvHint?.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
         }
     }
 

@@ -56,6 +56,8 @@ class TreatmentFragment : BaseFragment() {
     private fun observerData() {
         viewModel.treatments.observe(viewLifecycleOwner) {
             adapter?.submitList(it)
+
+            binding?.tvHint?.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
         }
     }
 
