@@ -41,11 +41,7 @@ class UnusualBehaviourFragment : BaseFragment() {
         binding?.run {
             tvTitle.text = getString(R.string.unusual_behaviour)
 
-            adapter = UnusualBehaviourRecyclerViewAdapter(
-                listOf(),
-                resourceManager,
-                Glide.with(requireContext())
-            )
+            adapter = UnusualBehaviourRecyclerViewAdapter(resourceManager, Glide.with(requireContext()))
             rv.addItemDecoration(SimpleVerticalDecorator(20))
             rv.adapter = adapter
 
@@ -73,7 +69,7 @@ class UnusualBehaviourFragment : BaseFragment() {
 
     private fun observerData() {
         viewModel.behaviours.observe(viewLifecycleOwner) { it ->
-            adapter?.updateList(it)
+            adapter?.submitList(it)
 
             binding?.tvHint?.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
         }

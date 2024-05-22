@@ -39,6 +39,7 @@ import ru.kpfu.itis.gureva.catcare.utils.FieldError
 import ru.kpfu.itis.gureva.catcare.utils.Formatter
 import ru.kpfu.itis.gureva.catcare.utils.SavingStatus
 import ru.kpfu.itis.gureva.catcare.utils.lazyViewModel
+import ru.kpfu.itis.gureva.catcare.utils.setMaxLines
 import java.text.SimpleDateFormat
 import java.util.Date
 import javax.inject.Inject
@@ -170,15 +171,13 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
             }
 
             viewModel.downloadStatus.observe(viewLifecycleOwner) {
-                alertDialog?.dismiss()
                 when (it) {
                     DownloadStatus.OK -> {
+                        alertDialog?.dismiss()
                     }
                     DownloadStatus.ERROR -> {
-                        MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog)
-                            .setTitle(getString(R.string.download_failed))
-                            .setPositiveButton(getString(R.string.btn_ok)) {_, _ -> }
-                            .show()
+                        alertDialog?.dismiss()
+                        showSnackbar(getString(R.string.download_failed))
                     }
                     DownloadStatus.EXECUTION -> {
                         alertDialog = MaterialAlertDialogBuilder(requireContext())
@@ -186,8 +185,19 @@ class PetProfileEditingFragment : Fragment(R.layout.fragment_pet_profile_editing
                             .setCancelable(false)
                             .show()
                     }
+                    DownloadStatus.LONG_EXECUTION -> {
+                        showSnackbar(getString(R.string.long_download))
+                    }
                 }
             }
+        }
+    }
+
+    private fun showSnackbar(text: String) {
+        binding?.let {
+            val snackbar = Snackbar.make(it.root, text, Snackbar.LENGTH_LONG)
+            snackbar.setMaxLines(3)
+            snackbar.show()
         }
     }
 

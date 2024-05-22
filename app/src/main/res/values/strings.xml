@@ -55,4 +55,6 @@
     <string name="note_adding_successful">Запись успешно добавлена</string>
     <string name="delete">Удалить</string>
     <string name="btn_add_hint">Здесь пока ничего нет, но чтобы добавить новую запись нажмите на "+"</string>
+    <string name="long_download">Изображение загружается очень долго. Проверьте подключение к интернету.</string>
+    <string name="btn_begin">Перейти</string>
 </resources>

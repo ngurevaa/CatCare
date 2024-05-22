@@ -10,7 +10,6 @@ import ru.kpfu.itis.gureva.catcare.presentation.repository.WelcomeViewPagerModel
 
 class WelcomeViewPagerFragment : Fragment(R.layout.fragment_welcome_view_pager) {
     private var binding: FragmentWelcomeViewPagerBinding? = null
-    private val fragmentContainerId: Int = R.id.main_container
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -29,7 +29,7 @@ class WeightControlFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentNoteBinding.bind(view)
 
-        val adapter = WeightControlRecyclerViewAdapter(listOf())
+        val adapter = WeightControlRecyclerViewAdapter()
         binding?.run {
             tvTitle.text = getString(R.string.weight_control)
 
@@ -45,7 +45,7 @@ class WeightControlFragment : BaseFragment() {
         }
 
         viewModel.weights.observe(viewLifecycleOwner) {
-            adapter.updateList(it)
+            adapter.submitList(it)
 
             binding?.tvHint?.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
         }

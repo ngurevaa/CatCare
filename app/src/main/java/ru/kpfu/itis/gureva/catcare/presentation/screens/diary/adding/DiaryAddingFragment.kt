@@ -81,38 +81,21 @@ class DiaryAddingFragment : Fragment(R.layout.fragment_diary_adding) {
             }
         }
 
-        observerData()
+        observeDiaryState()
+        observeDownloadStatus()
+        observeSavingStatus()
     }
 
-    private fun observerData() {
+    private fun observeDownloadStatus() {
         binding?.run {
-            viewModel.description.observe(viewLifecycleOwner) {
-                if (etDescription.text.toString() != it) {
-                    etDescription.setText(it)
-                }
-            }
-
-            viewModel.error.observe(viewLifecycleOwner) {
-                layoutDescription.error = it
-            }
-
-            viewModel.image.observe(viewLifecycleOwner) {
-                if (viewModel.downloadStatus.value != DownloadStatus.OK) {
-                    uploadImage(it)
-                }
-            }
-
             viewModel.downloadStatus.observe(viewLifecycleOwner) { status ->
-                alertDialog?.dismiss()
                 when (status) {
                     DownloadStatus.OK -> {
+                        alertDialog?.dismiss()
                     }
                     DownloadStatus.ERROR -> {
-                        binding?.let {
-                            val snackbar = Snackbar.make(it.root, getString(R.string.download_failed), Snackbar.LENGTH_LONG)
-                            snackbar.setMaxLines(3)
-                            snackbar.show()
-                        }
+                        alertDialog?.dismiss()
+                        showSnackbar(getString(R.string.download_failed))
                     }
                     DownloadStatus.EXECUTION -> {
                         alertDialog = MaterialAlertDialogBuilder(requireContext())
@@ -120,28 +103,59 @@ class DiaryAddingFragment : Fragment(R.layout.fragment_diary_adding) {
                             .setCancelable(false)
                             .show()
                     }
+                    DownloadStatus.LONG_EXECUTION -> {
+                        showSnackbar(getString(R.string.long_download))
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeSavingStatus() {
+        viewModel.savingStatus.observe(viewLifecycleOwner) {
+            when (it) {
+                SavingStatus.OK -> {
+                    MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog)
+                        .setCancelable(false)
+                        .setTitle(getString(R.string.note_adding_successful))
+                        .setPositiveButton(getString(R.string.btn_ok)) {_, _ ->
+                            parentFragmentManager.beginTransaction()
+                                .replace(R.id.main_container, DiaryFragment())
+                                .commit()
+                        }
+                        .show()
+                }
+                SavingStatus.ERROR -> {
+                    binding?.let { b -> Snackbar.make(b.root, getString(R.string.profile_saving_failed), Snackbar.LENGTH_LONG).show() }
                 }
             }
 
-            viewModel.savingStatus.observe(viewLifecycleOwner) {
-                when (it) {
-                    SavingStatus.OK -> {
-                        MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog)
-                            .setCancelable(false)
-                            .setTitle(getString(R.string.note_adding_successful))
-                            .setPositiveButton(getString(R.string.btn_ok)) {_, _ ->
-                                parentFragmentManager.beginTransaction()
-                                    .replace(R.id.main_container, DiaryFragment())
-                                    .commit()
-                            }
-                            .show()
-                    }
-                    SavingStatus.ERROR -> {
-                        Snackbar.make(root, getString(R.string.profile_saving_failed), Snackbar.LENGTH_LONG).show()
-                    }
+        }
+    }
+
+    private fun observeDiaryState() {
+        binding?.run {
+            viewModel.diaryState.observe(viewLifecycleOwner) {
+                if (etDescription.text.toString() != it.description) {
+                    etDescription.setText(it.description)
                 }
 
+                if (layoutDescription.error != it.error) {
+                    layoutDescription.error = it.error
+                }
+
+                if (viewModel.downloadStatus.value != DownloadStatus.OK && viewModel.downloadStatus.value != DownloadStatus.ERROR) {
+                    it.image?.let { img -> uploadImage(img) }
+                }
             }
+        }
+    }
+
+    private fun showSnackbar(text: String) {
+        binding?.let {
+            val snackbar = Snackbar.make(it.root, text, Snackbar.LENGTH_LONG)
+            snackbar.setMaxLines(3)
+            snackbar.show()
         }
     }
 
