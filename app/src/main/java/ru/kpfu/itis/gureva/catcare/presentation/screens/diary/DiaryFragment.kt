@@ -44,7 +44,7 @@ class DiaryFragment : Fragment(R.layout.fragment_diary) {
         binding = FragmentDiaryBinding.bind(view)
 
         binding?.run {
-            rvNotes.addItemDecoration(SimpleVerticalDecorator(35))
+            rvNotes.addItemDecoration(SimpleVerticalDecorator(30))
             adapter = DiaryRecyclerViewAdapter(Glide.with(requireContext()), ::onDeleteClicked, requireContext())
             rvNotes.adapter = adapter
 

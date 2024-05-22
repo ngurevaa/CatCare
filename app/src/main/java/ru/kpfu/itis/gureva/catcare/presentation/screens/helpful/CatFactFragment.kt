@@ -30,7 +30,7 @@ class CatFactFragment : Fragment(R.layout.fragment_cat_fact) {
     @Inject
     internal lateinit var viewModelFactory: Lazy<ViewModelProvider.Factory>
 
-    private val viewModel: HelpfulViewModel by viewModels {
+    private val viewModel: CatFactViewModel by viewModels {
         viewModelFactory.get()
     }
 

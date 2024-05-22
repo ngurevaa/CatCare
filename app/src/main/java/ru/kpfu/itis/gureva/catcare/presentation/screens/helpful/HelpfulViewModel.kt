@@ -1,37 +1,34 @@
 package ru.kpfu.itis.gureva.catcare.presentation.screens.helpful
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import ru.kpfu.itis.gureva.catcare.domain.usecase.GetCatFactUseCase
+import ru.kpfu.itis.gureva.catcare.domain.usecase.GetNewsUseCase
 import ru.kpfu.itis.gureva.catcare.presentation.mapper.CatFactUIModelMapper
-import ru.kpfu.itis.gureva.catcare.presentation.model.CatFactUIModel
+import ru.kpfu.itis.gureva.catcare.presentation.mapper.NewsUIModelMapper
+import ru.kpfu.itis.gureva.catcare.presentation.model.NewsUIModel
 import javax.inject.Inject
 
 class HelpfulViewModel @Inject constructor(
-    private val getCatFactUseCase: GetCatFactUseCase,
-    private val mapper: CatFactUIModelMapper
-) : ViewModel() {
+    private val getNewsUseCase: GetNewsUseCase,
+    private val mapper: NewsUIModelMapper
+): ViewModel() {
 
-    private val _currentCatFactFlow = MutableStateFlow<CatFactUIModel?>(null)
-    val currentCatFactFlow: StateFlow<CatFactUIModel?>
-        get() = _currentCatFactFlow
+    private val _news = MutableLiveData<List<NewsUIModel>>()
+    val news: LiveData<List<NewsUIModel>>
+        get() = _news
 
-    private val _errorFlow = MutableStateFlow<Throwable?>(null)
-    val errorFlow: StateFlow<Throwable?>
-        get() = _errorFlow
-
-    fun getFact() {
+    init {
         viewModelScope.launch {
-            runCatching {
-                mapper.mapDomainModelToUIModel(getCatFactUseCase.invoke())
-            }.onSuccess {
-                _currentCatFactFlow.value = it
-            }.onFailure {
-                _errorFlow.value = it
+            val list = getNewsUseCase.invoke()
+            val newList = mutableListOf<NewsUIModel>()
+            list.forEach {
+                newList.add(mapper.mapDomainModelToUIModel(it))
             }
+            _news.value = newList
         }
     }
 }

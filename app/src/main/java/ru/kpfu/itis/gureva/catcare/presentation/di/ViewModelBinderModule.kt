@@ -7,10 +7,9 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 import ru.kpfu.itis.gureva.catcare.presentation.screens.diary.DiaryViewModel
 import ru.kpfu.itis.gureva.catcare.presentation.screens.diary.adding.DiaryAddingViewModel
+import ru.kpfu.itis.gureva.catcare.presentation.screens.helpful.CatFactViewModel
 import ru.kpfu.itis.gureva.catcare.presentation.screens.helpful.HelpfulViewModel
 import ru.kpfu.itis.gureva.catcare.presentation.screens.pets.MyPetsViewModel
-import ru.kpfu.itis.gureva.catcare.presentation.screens.profile.PetProfileEditingViewModel
-import ru.kpfu.itis.gureva.catcare.presentation.screens.profile.PetProfileViewModel
 
 @Module
 interface ViewModelBinderModule {
@@ -19,8 +18,8 @@ interface ViewModelBinderModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(HelpfulViewModel::class)
-    fun bindHelpfulViewModel(viewModel: HelpfulViewModel): ViewModel
+    @ViewModelKey(CatFactViewModel::class)
+    fun bindHelpfulViewModel(viewModel: CatFactViewModel): ViewModel
 
     @Binds
     @IntoMap
@@ -36,4 +35,9 @@ interface ViewModelBinderModule {
     @IntoMap
     @ViewModelKey(DiaryAddingViewModel::class)
     fun bindDiaryAddingViewModel(viewModel: DiaryAddingViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(HelpfulViewModel::class)
+    fun binHelpfulViewModel(viewModel: HelpfulViewModel): ViewModel
 }
