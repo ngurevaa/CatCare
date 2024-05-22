@@ -1,4 +1,4 @@
-package ru.kpfu.itis.gureva.catcare.presentation.screens.helpful
+package ru.kpfu.itis.gureva.catcare.presentation.screens.helpful.fact
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -22,6 +22,10 @@ class CatFactViewModel @Inject constructor(
     private val _errorFlow = MutableStateFlow<Throwable?>(null)
     val errorFlow: StateFlow<Throwable?>
         get() = _errorFlow
+
+    init {
+        getFact()
+    }
 
     fun getFact() {
         viewModelScope.launch {

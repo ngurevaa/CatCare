@@ -1,4 +1,4 @@
-package ru.kpfu.itis.gureva.catcare.presentation.screens.helpful
+package ru.kpfu.itis.gureva.catcare.presentation.screens.helpful.fact
 
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -44,7 +44,6 @@ class CatFactFragment : Fragment(R.layout.fragment_cat_fact) {
         binding = FragmentCatFactBinding.bind(view)
 
         observerData()
-        viewModel.getFact()
 
         binding?.run {
             btnAnotherFact.setOnClickListener {

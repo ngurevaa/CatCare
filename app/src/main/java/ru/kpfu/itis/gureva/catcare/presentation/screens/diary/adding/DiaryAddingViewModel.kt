@@ -53,24 +53,23 @@ class DiaryAddingViewModel @Inject constructor(
     fun saveNote() {
         if (_diaryState.value?.description.isNullOrBlank()) {
             _diaryState.value = _diaryState.value?.copy(error = resourceManager.getString(R.string.error_field_must_not_be_empty))
+            return
         }
-        else {
-            _diaryState.value = _diaryState.value?.copy(error = null)
 
-            viewModelScope.launch {
-                if (_diaryState.value?.image != null) {
-                    _downloadStatus.value = DownloadStatus.EXECUTION
-                    doTask()
+        _diaryState.value = _diaryState.value?.copy(error = null)
+        viewModelScope.launch {
+            if (_diaryState.value?.image != null) {
+                _downloadStatus.value = DownloadStatus.EXECUTION
+                doTask()
 
-                    delay(15000)
-                    if (_downloadStatus.value == DownloadStatus.EXECUTION) {
-                        _downloadStatus.value = DownloadStatus.LONG_EXECUTION
-                    }
+                delay(15000)
+                if (_downloadStatus.value == DownloadStatus.EXECUTION) {
+                    _downloadStatus.value = DownloadStatus.LONG_EXECUTION
                 }
-                else {
-                    _savingStatus.value = SavingStatus.OK
-                    saveDiary(null)
-                }
+            }
+            else {
+                _savingStatus.value = SavingStatus.OK
+                saveDiary(null)
             }
         }
     }

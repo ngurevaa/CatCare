@@ -11,9 +11,8 @@ import dagger.Lazy
 import ru.kpfu.itis.gureva.catcare.R
 import ru.kpfu.itis.gureva.catcare.databinding.FragmentHelpfulBinding
 import ru.kpfu.itis.gureva.catcare.di.appComponent
-import ru.kpfu.itis.gureva.catcare.presentation.adapter.DiaryRecyclerViewAdapter
 import ru.kpfu.itis.gureva.catcare.presentation.adapter.NewsRecyclerViewAdapter
-import ru.kpfu.itis.gureva.catcare.presentation.screens.diary.DiaryViewModel
+import ru.kpfu.itis.gureva.catcare.presentation.screens.helpful.fact.CatFactFragment
 import ru.kpfu.itis.gureva.catcare.utils.SimpleVerticalDecorator
 import javax.inject.Inject
 
