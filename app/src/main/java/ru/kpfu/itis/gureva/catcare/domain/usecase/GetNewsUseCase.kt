@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetNewsUseCase @Inject constructor(
     private val newsRepository: NewsRepository
 ) {
-    suspend operator fun invoke(): List<NewsDomainModel> {
+    operator fun invoke(): List<NewsDomainModel> {
         return newsRepository.getNews()
     }
 }

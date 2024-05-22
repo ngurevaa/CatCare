@@ -25,6 +25,7 @@ import ru.kpfu.itis.gureva.catcare.presentation.screens.vaccination.VaccinationV
 import ru.kpfu.itis.gureva.catcare.presentation.screens.vaccination.adding.VaccinationAddingViewModel
 import ru.kpfu.itis.gureva.catcare.presentation.screens.medicine.MedicineViewModel
 import ru.kpfu.itis.gureva.catcare.presentation.screens.medicine.adding.MedicineAddingViewModel
+import ru.kpfu.itis.gureva.catcare.presentation.screens.registration.WelcomeViewPagerFragment
 import ru.kpfu.itis.gureva.catcare.presentation.screens.treatment.TreatmentFragment
 import ru.kpfu.itis.gureva.catcare.presentation.screens.treatment.TreatmentViewModel
 import ru.kpfu.itis.gureva.catcare.presentation.screens.treatment.adding.TreatmentAddingViewModel
@@ -77,5 +78,6 @@ interface AppComponent {
     fun inject(fragment: BaseFragment)
     fun inject(fragment: DiaryFragment)
     fun inject(fragment: DiaryAddingFragment)
+    fun inject(fragment: WelcomeViewPagerFragment)
 }
 

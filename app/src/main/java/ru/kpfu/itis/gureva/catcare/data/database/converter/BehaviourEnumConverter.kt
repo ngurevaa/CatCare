@@ -4,7 +4,6 @@ import androidx.room.TypeConverter
 import ru.kpfu.itis.gureva.catcare.utils.Behaviour
 import javax.inject.Inject
 
-
 class BehaviourEnumConverter @Inject constructor() {
     @TypeConverter
     fun from(behaviour: Behaviour): String {

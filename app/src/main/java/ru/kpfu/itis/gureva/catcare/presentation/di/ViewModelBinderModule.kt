@@ -10,6 +10,7 @@ import ru.kpfu.itis.gureva.catcare.presentation.screens.diary.adding.DiaryAdding
 import ru.kpfu.itis.gureva.catcare.presentation.screens.helpful.CatFactViewModel
 import ru.kpfu.itis.gureva.catcare.presentation.screens.helpful.HelpfulViewModel
 import ru.kpfu.itis.gureva.catcare.presentation.screens.pets.MyPetsViewModel
+import ru.kpfu.itis.gureva.catcare.presentation.screens.registration.WelcomeViewModel
 
 @Module
 interface ViewModelBinderModule {
@@ -19,7 +20,7 @@ interface ViewModelBinderModule {
     @Binds
     @IntoMap
     @ViewModelKey(CatFactViewModel::class)
-    fun bindHelpfulViewModel(viewModel: CatFactViewModel): ViewModel
+    fun bindCatFactViewModel(viewModel: CatFactViewModel): ViewModel
 
     @Binds
     @IntoMap
@@ -39,5 +40,10 @@ interface ViewModelBinderModule {
     @Binds
     @IntoMap
     @ViewModelKey(HelpfulViewModel::class)
-    fun binHelpfulViewModel(viewModel: HelpfulViewModel): ViewModel
+    fun bindHelpfulViewModel(viewModel: HelpfulViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(WelcomeViewModel::class)
+    fun bindWelcomeViewModel(viewModel: WelcomeViewModel): ViewModel
 }
