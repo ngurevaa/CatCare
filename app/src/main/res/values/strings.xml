@@ -44,6 +44,7 @@
     <string name="active">Активный</string>
     <string name="fearful">Пугливый</string>
     <string name="behaviour_adding_hint">Возможно запомнилось что-то особенное?</string>
+    <string name="weight_adding_hint">Введите вес</string>
     <string name="vaccination_adding_hint">Введите данные о вакцине</string>
     <string name="medicine_adding_hint">Введите данные о лекарстве</string>
     <string name="treatment_adding_hint">Введите данные о препарате</string>
