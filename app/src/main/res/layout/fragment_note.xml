@@ -4,14 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".presentation.screens.weight.WeightControlFragment"
+    tools:context=".presentation.screens.vaccination.VaccinationFragment"
     android:background="@color/beige">
 
     <TextView
-        android:id="@+id/tv_weight_control"
+        android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/weight_control"
         android:textSize="24sp"
         android:fontFamily="@font/montserrat_semi_bold"
         app:layout_constraintTop_toTopOf="parent"
@@ -30,14 +29,27 @@
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_weight"
+        android:id="@+id/rv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_weight_control"
-        tools:listitem="@layout/item_weight"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+    <TextView
+        android:id="@+id/tv_hint"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_regular"
+        android:textSize="20sp"
+        android:text="@string/btn_add_hint"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/rv"
+        app:layout_constraintBottom_toBottomOf="@id/rv"
+        android:layout_marginHorizontal="48dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

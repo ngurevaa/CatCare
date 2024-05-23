@@ -43,5 +43,30 @@
     <string name="sad">Грустный</string>
     <string name="active">Активный</string>
     <string name="fearful">Пугливый</string>
-    <string name="perhaps_you_remember_something_special">Возможно запомнилось что-то особенное?</string>
+    <string name="behaviour_adding_hint">Возможно запомнилось что-то особенное?</string>
+    <string name="weight_adding_hint">Введите вес</string>
+    <string name="vaccination_adding_hint">Введите данные о вакцине</string>
+    <string name="medicine_adding_hint">Введите данные о лекарстве</string>
+    <string name="treatment_adding_hint">Введите данные о препарате</string>
+    <string name="vet_adding_hint">Введите поставленный диагноз</string>
+    <string name="note_deleted">Запись удалена</string>
+    <string name="cancel">Отменить</string>
+    <string name="new_note">Новая запись</string>
+    <string name="share_your_thoughts">Поделитесь своими мыслями</string>
+    <string name="note_adding_successful">Запись успешно добавлена</string>
+    <string name="delete">Удалить</string>
+    <string name="btn_add_hint">Здесь пока ничего нет, но чтобы добавить новую запись нажмите на "+"</string>
+    <string name="long_download">Изображение загружается очень долго. Проверьте подключение к интернету.</string>
+    <string name="btn_begin">Перейти</string>
+    <string name="news_title_1">Как понять что ваш кот толстый?</string>
+    <string name="news_description_1">Полненькие питомцы выглядят умилительно. Однако не нужно забывать: лишний вес — это лишние проблемы со здоровьем вашего кота.
+        Как минимум: с дыханием, суставами и работой сердечно-сосудистой системы. Когда у кошки нормальный вес, вы можете видеть, как ваше животное дышит, по колебаниям рёбер.
+        А вот когда питомец начал «расползаться», вам придётся хорошенько присмотреться, чтобы увидеть процесс дыхания. Рёбра вашей кошки должны хорошо прощупываться. Посмотрите на кошку, лежащую на боку.
+        Если вы не видите чёткого перехода от её живота к бедрам, значит, ваш питомец точно пополнел.</string>
+    <string name="welcome_title_1">Здравствуйте!</string>
+    <string name="welcome_description_1">Наше приложение поможет вам контролировать здоровье вашего питомца</string>
+    <string name="welcome_title_2">Вы не забудете ничего</string>
+    <string name="welcome_description_2">Ведь теперь вы сможете сохранять всё: от обычных заметок о прошедшем дне до важных записей о вакцинации</string>
+    <string name="welcome_title_3">Хотите начать?</string>
+    <string name="welcome_description_3">Тогда давайте заполним данные о вашем питомце</string>
 </resources>

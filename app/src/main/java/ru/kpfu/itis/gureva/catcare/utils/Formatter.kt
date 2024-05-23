@@ -16,11 +16,13 @@ object Formatter {
     }
 
     private fun getMonth(count: Int): String {
-        return when (count % 10) {
-            1 -> "месяц"
-            2, 3, 4 -> "месяца"
-            else -> "месяцев"
+        if (count % 10 == 1 && count != 11) {
+            return "месяц"
         }
+        else if (count % 10 in 2..4) {
+            return "месяца"
+        }
+        return "месяцев"
     }
 
     private fun getYear(count: Int): String {

@@ -48,6 +48,7 @@ android {
 }
 
 dependencies {
+    implementation("it.xabaras.android:recyclerview-swipedecorator:1.4")
 
     implementation("joda-time:joda-time:2.12.1")
 

@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="36dp"
             android:fontFamily="@font/montserrat_medium"
-            android:text="Введите вес"
+            android:text="@string/weight_adding_hint"
             android:textSize="22sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/layout_weight"

@@ -17,10 +17,6 @@ class MyPetsViewModel @Inject constructor(
         get() = _pets
 
     init {
-        getPets()
-    }
-
-    private fun getPets() {
         viewModelScope.launch {
             _pets.value = petRepository.getAll()
         }

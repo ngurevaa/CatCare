@@ -1,4 +1,4 @@
-package ru.kpfu.itis.gureva.catcare.presentation.screens.helpful
+package ru.kpfu.itis.gureva.catcare.presentation.screens.helpful.fact
 
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -30,7 +30,7 @@ class CatFactFragment : Fragment(R.layout.fragment_cat_fact) {
     @Inject
     internal lateinit var viewModelFactory: Lazy<ViewModelProvider.Factory>
 
-    private val viewModel: HelpfulViewModel by viewModels {
+    private val viewModel: CatFactViewModel by viewModels {
         viewModelFactory.get()
     }
 
@@ -44,7 +44,6 @@ class CatFactFragment : Fragment(R.layout.fragment_cat_fact) {
         binding = FragmentCatFactBinding.bind(view)
 
         observerData()
-        viewModel.getFact()
 
         binding?.run {
             btnAnotherFact.setOnClickListener {

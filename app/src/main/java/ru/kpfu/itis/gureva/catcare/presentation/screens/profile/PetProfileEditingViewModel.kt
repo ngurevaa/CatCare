@@ -15,6 +15,7 @@ import com.google.firebase.storage.storage
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.kpfu.itis.gureva.catcare.data.database.entity.PetEntity
 import ru.kpfu.itis.gureva.catcare.data.database.repository.PetRepository
@@ -106,6 +107,11 @@ class PetProfileEditingViewModel @AssistedInject constructor(
                 try {
                     petId = petRepository.save(newPet).toInt()
                     savePhoto(_petState.value?.image != pet?.image)
+
+                    delay(15000)
+                    if (_downloadStatus.value == DownloadStatus.EXECUTION) {
+                        _downloadStatus.value = DownloadStatus.LONG_EXECUTION
+                    }
                 } catch (ex: Exception) {
                     _savingStatus.value = SavingStatus.ERROR
                 }

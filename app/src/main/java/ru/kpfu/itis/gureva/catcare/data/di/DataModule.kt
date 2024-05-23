@@ -28,4 +28,19 @@ class DataModule {
 
     @Provides
     fun provideBehaviourDao(database: AppDatabase) = database.behaviourDao
+
+    @Provides
+    fun provideVaccinationDao(database: AppDatabase) = database.vaccinationDao
+
+    @Provides
+    fun provideMedicineDao(database: AppDatabase) = database.medicineDao
+
+    @Provides
+    fun provideTreatmentDao(database: AppDatabase) = database.treatmentDao
+
+    @Provides
+    fun provideVetDao(database: AppDatabase) = database.vetDao
+
+    @Provides
+    fun provideDiaryDao(database: AppDatabase) = database.diaryDao
 }

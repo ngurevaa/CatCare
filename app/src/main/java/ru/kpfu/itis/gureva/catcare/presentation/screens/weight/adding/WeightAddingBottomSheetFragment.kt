@@ -7,26 +7,23 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ru.kpfu.itis.gureva.catcare.R
 import ru.kpfu.itis.gureva.catcare.databinding.FragmentWeightAddingBottomSheetBinding
 import ru.kpfu.itis.gureva.catcare.di.appComponent
+import ru.kpfu.itis.gureva.catcare.presentation.screens.base.BaseAddingFragment
 import ru.kpfu.itis.gureva.catcare.utils.DatePicker
 import ru.kpfu.itis.gureva.catcare.utils.Formatter
 import ru.kpfu.itis.gureva.catcare.utils.lazyViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 
-class WeightAddingBottomSheetFragment : BottomSheetDialogFragment(R.layout.fragment_weight_adding_bottom_sheet) {
+class WeightAddingBottomSheetFragment : BaseAddingFragment(R.layout.fragment_weight_adding_bottom_sheet) {
     private var binding: FragmentWeightAddingBottomSheetBinding? = null
 
-    private var petId: Int? = null
-
-    private val viewModel: WeightAddingViewModel by lazyViewModel {
+    override val viewModel: WeightAddingViewModel by lazyViewModel {
         requireContext().appComponent.getWeightAddingViewModel().create(petId ?: 1)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentWeightAddingBottomSheetBinding.bind(view)
-
-        petId = arguments?.getInt(ARG_ID)
 
         binding?.run {
             etDate.inputType = InputType.TYPE_NULL
@@ -54,8 +51,6 @@ class WeightAddingBottomSheetFragment : BottomSheetDialogFragment(R.layout.fragm
         }
     }
     companion object {
-        private const val ARG_ID = "arg_id"
-
         fun newInstance(id: Int) = WeightAddingBottomSheetFragment().apply {
             arguments = Bundle().apply {
                 putInt(ARG_ID, id)

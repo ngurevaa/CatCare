@@ -8,7 +8,11 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import ru.kpfu.itis.gureva.catcare.R
 import ru.kpfu.itis.gureva.catcare.databinding.FragmentPetBinding
 import ru.kpfu.itis.gureva.catcare.di.appComponent
+import ru.kpfu.itis.gureva.catcare.presentation.screens.medicine.MedicineFragment
+import ru.kpfu.itis.gureva.catcare.presentation.screens.treatment.TreatmentFragment
 import ru.kpfu.itis.gureva.catcare.presentation.screens.unusual.UnusualBehaviourFragment
+import ru.kpfu.itis.gureva.catcare.presentation.screens.vaccination.VaccinationFragment
+import ru.kpfu.itis.gureva.catcare.presentation.screens.vet.VetFragment
 import ru.kpfu.itis.gureva.catcare.presentation.screens.weight.WeightControlFragment
 import ru.kpfu.itis.gureva.catcare.utils.lazyViewModel
 import java.util.Date
@@ -61,6 +65,34 @@ class PetProfileFragment : Fragment(R.layout.fragment_pet) {
             cvBehaviour.setOnClickListener {
                 parentFragmentManager.beginTransaction()
                     .replace(fragmentContainerId, UnusualBehaviourFragment.newInstance(petId ?: 1))
+                    .addToBackStack(null)
+                    .commit()
+            }
+
+            cvVaccination.setOnClickListener {
+                parentFragmentManager.beginTransaction()
+                    .replace(fragmentContainerId, VaccinationFragment.newInstance(petId ?: 1))
+                    .addToBackStack(null)
+                    .commit()
+            }
+
+            cvFlea.setOnClickListener {
+                parentFragmentManager.beginTransaction()
+                    .replace(fragmentContainerId, TreatmentFragment.newInstance(petId ?: 1))
+                    .addToBackStack(null)
+                    .commit()
+            }
+
+            cvMedicine.setOnClickListener {
+                parentFragmentManager.beginTransaction()
+                    .replace(fragmentContainerId, MedicineFragment.newInstance(petId ?: 1))
+                    .addToBackStack(null)
+                    .commit()
+            }
+
+            cvVet.setOnClickListener {
+                parentFragmentManager.beginTransaction()
+                    .replace(fragmentContainerId, VetFragment.newInstance(petId ?: 1))
                     .addToBackStack(null)
                     .commit()
             }
